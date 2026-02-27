@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>🌸 Fill My Slambook</title>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Josefin+Sans:wght@300;400;600&family=Abril+Fatface&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --cream:#FFF8F0;--blush:#FFD6E0;--lavender:#E8D5F5;--mint:#C8F0E0;
+  --gold:#F5C842;--coral:#FF8B6B;--periwinkle:#B8C5F5;--peach:#FFE0C8;
+  --ink:#2D1B4E;--soft-ink:#6B5B8A;--paper:#FFFDF8;
+  --shadow:rgba(45,27,78,.12);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  background:var(--cream);
+  font-family:'Josefin Sans',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* ── BACKGROUND ─────────────────────────────────────────────── */
+.scene{
+  position:fixed;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 70% 60% at 10% 10%,rgba(255,214,224,.7),transparent),
+    radial-gradient(ellipse 50% 40% at 90% 90%,rgba(232,213,245,.6),transparent),
+    radial-gradient(ellipse 60% 50% at 50% 50%,rgba(200,240,224,.3),transparent),
+    var(--cream);
+}
+.scene::after{
+  content:'';position:absolute;inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='20' cy='20' r='1' fill='%23E8D5F5' fill-opacity='0.6'/%3E%3C/svg%3E");
+}
+
+.floaty-bg{position:fixed;pointer-events:none;z-index:1;font-size:1.8rem;animation:floatBg 15s ease-in-out infinite;opacity:.5;}
+@keyframes floatBg{0%,100%{transform:translateY(0) rotate(-3deg);}50%{transform:translateY(-16px) rotate(6deg);}}
+
+/* ── LOADING / ERROR ─────────────────────────────────────────── */
+#loadScreen{
+  position:fixed;inset:0;z-index:100;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:var(--cream);
+}
+.load-spinner{
+  width:60px;height:60px;
+  border:4px solid var(--blush);
+  border-top-color:var(--coral);
+  border-radius:50%;
+  animation:spin .8s linear infinite;margin-bottom:16px;
+}
+@keyframes spin{to{transform:rotate(360deg);}}
+.load-txt{font-family:'Caveat',cursive;font-size:1.4rem;color:var(--ink);}
+
+/* ── HEADER BANNER ───────────────────────────────────────────── */
+#mainWrap{position:relative;z-index:10;max-width:780px;margin:0 auto;padding:24px 16px 60px;}
+
+.banner{
+  background:linear-gradient(135deg,var(--blush),var(--lavender),var(--mint));
+  border-radius:20px;
+  padding:36px 32px;
+  text-align:center;
+  margin-bottom:28px;
+  box-shadow:0 8px 40px var(--shadow);
+  position:relative;overflow:hidden;
+}
+.banner::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='40' cy='40' r='35' fill='none' stroke='white' stroke-width='0.5' stroke-dasharray='4 4' opacity='0.4'/%3E%3C/svg%3E");
+  animation:spinSlow 40s linear infinite;
+}
+@keyframes spinSlow{to{transform:rotate(360deg);}}
+.banner-for{
+  font-family:'Josefin Sans',sans-serif;
+  font-size:.75rem;letter-spacing:4px;text-transform:uppercase;
+  color:rgba(45,27,78,.5);margin-bottom:4px;
+}
+.banner-name{
+  font-family:'Abril Fatface',serif;
+  font-size:clamp(2rem,8vw,3.5rem);
+  color:var(--ink);line-height:1;
+  margin-bottom:8px;
+}
+.banner-sub{
+  font-family:'Caveat',cursive;
+  font-size:1.2rem;color:var(--soft-ink);
+}
+.banner-stickers{font-size:1.8rem;margin-top:12px;letter-spacing:6px;}
+
+/* ── PROGRESS BAR ────────────────────────────────────────────── */
+.progress-wrap{
+  margin-bottom:24px;
+  background:white;border-radius:12px;
+  padding:14px 20px;
+  box-shadow:0 2px 12px var(--shadow);
+}
+.progress-lbl{
+  display:flex;justify-content:space-between;
+  font-size:.75rem;letter-spacing:1px;color:var(--soft-ink);
+  margin-bottom:8px;
+}
+.progress-bar{
+  height:6px;background:var(--blush);border-radius:3px;overflow:hidden;
+}
+.progress-fill{
+  height:100%;border-radius:3px;
+  background:linear-gradient(90deg,var(--coral),#FF6B9E,var(--lavender));
+  width:0%;transition:width .5s ease;
+}
+
+/* ── SECTION CARD ─────────────────────────────────────────────── */
+.s-card{
+  background:var(--paper);
+  border-radius:20px;
+  padding:32px;
+  margin-bottom:24px;
+  box-shadow:0 4px 24px var(--shadow);
+  position:relative;overflow:hidden;
+  animation:cardIn .5s ease forwards;
+  opacity:0;transform:translateY(20px);
+}
+@keyframes cardIn{to{opacity:1;transform:translateY(0);}}
+.s-card::before{
+  content:'';
+  position:absolute;left:0;top:0;bottom:0;width:5px;
+  border-radius:20px 0 0 20px;
+}
+.card-basic::before{background:linear-gradient(180deg,var(--blush),var(--coral));}
+.card-favs::before{background:linear-gradient(180deg,var(--gold),var(--coral));}
+.card-dreams::before{background:linear-gradient(180deg,var(--mint),var(--periwinkle));}
+.card-about::before{background:linear-gradient(180deg,var(--lavender),var(--blush));}
+.card-us::before{background:linear-gradient(180deg,var(--periwinkle),var(--mint));}
+.card-music::before{background:linear-gradient(180deg,var(--gold),var(--lavender));}
+.card-rapid::before{background:linear-gradient(180deg,var(--coral),var(--gold));}
+.card-last::before{background:linear-gradient(180deg,var(--blush),var(--lavender));}
+
+.s-title{
+  font-family:'Caveat',cursive;
+  font-size:1.6rem;color:var(--ink);
+  margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+}
+.s-title::after{
+  content:'';flex:1;height:1.5px;
+  background:linear-gradient(90deg,rgba(180,160,200,.4),transparent);
+  border-radius:1px;
+}
+
+/* ── FIELD ────────────────────────────────────────────────────── */
+.f-wrap{margin-bottom:18px;}
+.f-wrap label{
+  display:block;
+  font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--soft-ink);margin-bottom:6px;
+}
+.f-wrap label .opt{
+  font-style:italic;text-transform:none;letter-spacing:0;color:rgba(107,91,138,.4);
+}
+.f-input{
+  width:100%;padding:11px 16px;
+  background:rgba(255,255,255,.7);
+  border:1.5px solid rgba(180,160,200,.3);
+  border-radius:10px;
+  font-family:'Caveat',cursive;
+  font-size:1.1rem;color:var(--ink);
+  outline:none;
+  transition:border-color .2s,box-shadow .2s,background .2s;
+  /* Ink write effect */
+  position:relative;
+}
+.f-input:focus{
+  border-color:var(--coral);
+  box-shadow:0 0 0 3px rgba(255,139,107,.12);
+  background:white;
+}
+.f-input::placeholder{color:rgba(107,91,138,.3);font-style:italic;}
+textarea.f-input{resize:none;height:80px;line-height:1.5;}
+
+/* Two-col grid for smaller fields */
+.f-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:500px){.f-grid{grid-template-columns:1fr;}}
+
+/* ── RAPID FIRE TOGGLES ──────────────────────────────────────── */
+.rf-group{
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(255,255,255,.5);
+  border-radius:12px;padding:12px 16px;
+  margin-bottom:12px;
+  border:1.5px solid rgba(180,160,200,.2);
+  flex-wrap:wrap;gap:8px;
+}
+.rf-q{
+  font-family:'Caveat',cursive;
+  font-size:1.1rem;color:var(--ink);
+  flex:1;min-width:120px;
+}
+.rf-options{display:flex;gap:8px;}
+.rf-btn{
+  padding:7px 18px;border-radius:20px;
+  border:1.5px solid rgba(180,160,200,.3);
+  background:white;font-family:'Caveat',cursive;
+  font-size:1rem;color:var(--soft-ink);cursor:pointer;
+  transition:all .15s;
+}
+.rf-btn.selected{
+  background:var(--coral);border-color:var(--coral);color:white;
+  transform:scale(1.05);
+}
+
+/* ── REMEMBER ME ─────────────────────────────────────────────── */
+.remember-wrap{
+  background:linear-gradient(135deg,var(--blush),var(--lavender));
+  border-radius:14px;padding:20px;text-align:center;
+  margin-top:16px;
+}
+.remember-wrap p{
+  font-family:'Caveat',cursive;font-size:1.3rem;color:var(--ink);
+  margin-bottom:14px;
+}
+.remember-options{display:flex;gap:12px;justify-content:center;}
+.remember-btn{
+  padding:10px 28px;border-radius:20px;
+  border:2px solid transparent;
+  font-family:'Caveat',cursive;font-size:1.2rem;cursor:pointer;
+  transition:all .2s;
+}
+.remember-btn.yes{
+  background:linear-gradient(135deg,var(--coral),#FF6B9E);
+  color:white;box-shadow:0 4px 16px rgba(255,139,107,.3);
+}
+.remember-btn.no{
+  background:white;color:var(--soft-ink);
+  border-color:rgba(180,160,200,.4);
+}
+.remember-btn.no.selected{
+  background:#ffe0e0;border-color:#ff9999;color:#cc4444;
+  text-decoration:line-through;
+}
+.remember-btn.yes.selected{
+  transform:scale(1.1);
+  box-shadow:0 6px 24px rgba(255,139,107,.5);
+}
+
+/* ── SUBMIT BTN ──────────────────────────────────────────────── */
+.submit-area{text-align:center;margin-top:8px;}
+.submit-btn{
+  padding:16px 48px;
+  background:linear-gradient(135deg,var(--coral),#FF6B9E);
+  border:none;border-radius:50px;
+  font-family:'Abril Fatface',serif;
+  font-size:1.4rem;color:white;cursor:pointer;
+  box-shadow:0 6px 28px rgba(255,139,107,.4);
+  transition:transform .2s,box-shadow .2s;
+  letter-spacing:1px;
+  position:relative;overflow:hidden;
+}
+.submit-btn::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);
+  transform:translateX(-100%);
+}
+.submit-btn:hover{
+  transform:translateY(-3px) scale(1.02);
+  box-shadow:0 10px 36px rgba(255,139,107,.5);
+}
+.submit-btn:hover::after{animation:shine .5s ease;}
+@keyframes shine{to{transform:translateX(100%);}}
+.submit-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
+
+/* ── SUCCESS SCREEN ──────────────────────────────────────────── */
+#successScreen{
+  display:none;
+  min-height:80vh;
+  align-items:center;justify-content:center;flex-direction:column;
+  text-align:center;padding:40px;
+}
+.success-book{
+  background:var(--paper);border-radius:20px;
+  padding:48px 40px;max-width:440px;width:100%;
+  box-shadow:0 8px 40px var(--shadow);
+  animation:popIn .6s cubic-bezier(.34,1.56,.64,1);
+}
+@keyframes popIn{from{transform:scale(.7);opacity:0;}to{transform:scale(1);opacity:1;}}
+.success-emoji{font-size:4rem;margin-bottom:16px;display:block;animation:bounce 1s ease infinite alternate;}
+@keyframes bounce{to{transform:translateY(-10px);}}
+.success-title{font-family:'Abril Fatface',serif;font-size:2rem;color:var(--ink);margin-bottom:8px;}
+.success-sub{font-family:'Caveat',cursive;font-size:1.2rem;color:var(--soft-ink);}
+
+/* ── CHAR COUNT ──────────────────────────────────────────────── */
+.char-hint{font-size:.65rem;color:rgba(107,91,138,.35);text-align:right;margin-top:2px;}
+</style>
+</head>
+<body>
+<div class="scene"></div>
+<span class="floaty-bg" style="top:8%;left:4%;animation-delay:0s;">🌸</span>
+<span class="floaty-bg" style="top:30%;right:3%;animation-delay:-4s;">💌</span>
+<span class="floaty-bg" style="bottom:25%;left:6%;animation-delay:-8s;">✨</span>
+<span class="floaty-bg" style="bottom:10%;right:5%;animation-delay:-12s;">🦋</span>
+
+<!-- Loading -->
+<div id="loadScreen">
+  <div class="load-spinner"></div>
+  <div class="load-txt" id="loadTxt">Opening slambook…</div>
+</div>
+
+<!-- Main wrap -->
+<div id="mainWrap" style="display:none;">
+
+  <!-- Banner -->
+  <div class="banner">
+    <div class="banner-for">you've been asked to fill</div>
+    <div class="banner-name" id="ownerName">…'s Slambook</div>
+    <div class="banner-sub">be honest, be sweet, be you 🫶</div>
+    <div class="banner-stickers">🌸 💌 ✨ 🦋 🎀</div>
+  </div>
+
+  <!-- Progress -->
+  <div class="progress-wrap">
+    <div class="progress-lbl">
+      <span>✍️ Your progress</span>
+      <span id="pct">0%</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progFill"></div></div>
+  </div>
+
+  <form id="slamForm">
+
+    <!-- 1. BASIC DETAILS -->
+    <div class="s-card card-basic" style="animation-delay:.05s">
+      <div class="s-title">💌 Basic Details</div>
+      <div class="f-wrap">
+        <label>Full Name <span style="color:var(--coral)">*</span></label>
+        <input class="f-input trackable" type="text" name="full_name" placeholder="Your full name" maxlength="80" required/>
+      </div>
+      <div class="f-grid">
+        <div class="f-wrap">
+          <label>Nickname</label>
+          <input class="f-input trackable" type="text" name="nickname" placeholder="what people call you" maxlength="50"/>
+        </div>
+        <div class="f-wrap">
+          <label>Date of Birth</label>
+          <input class="f-input trackable" type="text" name="dob" placeholder="DD / MM / YYYY" maxlength="20"/>
+        </div>
+      </div>
+      <div class="f-grid">
+        <div class="f-wrap">
+          <label>Zodiac Sign</label>
+          <input class="f-input trackable" type="text" name="zodiac" placeholder="♈ Aries?" maxlength="30"/>
+        </div>
+        <div class="f-wrap">
+          <label>Contact <span class="opt">(optional)</span></label>
+          <input class="f-input" type="text" name="contact" placeholder="insta / phone" maxlength="80"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. FAVORITES -->
+    <div class="s-card card-favs" style="animation-delay:.1s">
+      <div class="s-title">⭐ My Favorites</div>
+      <div class="f-grid">
+        <div class="f-wrap"><label>Favorite Color</label><input class="f-input trackable" type="text" name="fav_color" placeholder="🎨" maxlength="50"/></div>
+        <div class="f-wrap"><label>Favorite Food</label><input class="f-input trackable" type="text" name="fav_food" placeholder="🍜" maxlength="80"/></div>
+        <div class="f-wrap"><label>Favorite Movie / Series</label><input class="f-input trackable" type="text" name="fav_movie" placeholder="🎬" maxlength="100"/></div>
+        <div class="f-wrap"><label>Favorite Singer / Band</label><input class="f-input trackable" type="text" name="fav_singer" placeholder="🎵" maxlength="80"/></div>
+        <div class="f-wrap"><label>Favorite Actor / Actress</label><input class="f-input trackable" type="text" name="fav_actor" placeholder="🎭" maxlength="80"/></div>
+        <div class="f-wrap"><label>Favorite Place</label><input class="f-input trackable" type="text" name="fav_place" placeholder="🌍" maxlength="80"/></div>
+        <div class="f-wrap"><label>Favorite Subject</label><input class="f-input trackable" type="text" name="fav_subject" placeholder="📚" maxlength="60"/></div>
+        <div class="f-wrap"><label>Favorite Hobby</label><input class="f-input trackable" type="text" name="fav_hobby" placeholder="🎯" maxlength="80"/></div>
+        <div class="f-wrap"><label>Favorite Season</label><input class="f-input trackable" type="text" name="fav_season" placeholder="🌸 Spring?" maxlength="30"/></div>
+      </div>
+      <div class="f-wrap">
+        <label>Favorite Quote</label>
+        <textarea class="f-input trackable" name="fav_quote" placeholder="that one line that lives rent-free in your head…"></textarea>
+      </div>
+    </div>
+
+    <!-- 3. DREAMS -->
+    <div class="s-card card-dreams" style="animation-delay:.15s">
+      <div class="s-title">🎯 Dreams & Goals</div>
+      <div class="f-wrap"><label>My Biggest Goal in Life</label><textarea class="f-input trackable" name="goal" placeholder="dream big!"></textarea></div>
+      <div class="f-grid">
+        <div class="f-wrap"><label>Dream Job</label><input class="f-input trackable" type="text" name="dream_job" placeholder="✨" maxlength="100"/></div>
+        <div class="f-wrap"><label>Where I See Myself in 10 Years</label><input class="f-input trackable" type="text" name="in_10_years" placeholder="🔮" maxlength="150"/></div>
+      </div>
+      <div class="f-wrap"><label>One Thing I Really Want to Achieve</label><input class="f-input trackable" type="text" name="want_to_achieve" placeholder="bucket list item?" maxlength="150"/></div>
+    </div>
+
+    <!-- 4. ABOUT ME -->
+    <div class="s-card card-about" style="animation-delay:.2s">
+      <div class="s-title">💭 About Me (Be Honest 😜)</div>
+      <div class="f-wrap"><label>3 Words That Describe Me</label><input class="f-input trackable" type="text" name="three_words" placeholder="wild, soft, chaotic?" maxlength="100"/></div>
+      <div class="f-grid">
+        <div class="f-wrap"><label>My Biggest Fear</label><input class="f-input trackable" type="text" name="biggest_fear" placeholder="👻" maxlength="150"/></div>
+        <div class="f-wrap"><label>My Biggest Strength</label><input class="f-input trackable" type="text" name="strength" placeholder="💪" maxlength="150"/></div>
+        <div class="f-wrap"><label>My Hidden Talent</label><input class="f-input trackable" type="text" name="hidden_talent" placeholder="🎪" maxlength="150"/></div>
+        <div class="f-wrap"><label>Most Embarrassing Moment</label><input class="f-input trackable" type="text" name="embarrassing_moment" placeholder="😳 spill it" maxlength="200"/></div>
+      </div>
+      <div class="f-wrap"><label>Biggest Crush <span class="opt">(optional 😏)</span></label><input class="f-input" type="text" name="crush" placeholder="initials are fine hehe" maxlength="100"/></div>
+    </div>
+
+    <!-- 5. ABOUT US -->
+    <div class="s-card card-us" style="animation-delay:.25s">
+      <div class="s-title">👀 About Us</div>
+      <div class="f-wrap"><label>First Impression of You</label><textarea class="f-input trackable" name="first_impression" placeholder="what did I think when I first met you?"></textarea></div>
+      <div class="f-wrap"><label>What Changed After Knowing You</label><textarea class="f-input trackable" name="what_changed" placeholder="how has knowing you changed me?"></textarea></div>
+      <div class="f-wrap"><label>My Favorite Memory With You</label><textarea class="f-input trackable" name="fav_memory" placeholder="that one moment I'll never forget 🥺"></textarea></div>
+      <div class="f-grid">
+        <div class="f-wrap"><label>What I Like Most About You</label><input class="f-input trackable" type="text" name="like_most" placeholder="💖" maxlength="200"/></div>
+        <div class="f-wrap"><label>What Annoys Me About You 😅</label><input class="f-input trackable" type="text" name="annoys_me" placeholder="be honest haha" maxlength="200"/></div>
+      </div>
+      <div class="f-wrap"><label>A Secret Between Just Us</label><input class="f-input trackable" type="text" name="secret_between_us" placeholder="shhh 🤫" maxlength="200"/></div>
+      <div class="f-wrap"><label>If We Were a Movie, It Would Be Called…</label><input class="f-input trackable" type="text" name="movie_title" placeholder="🎬 title goes here" maxlength="150"/></div>
+    </div>
+
+    <!-- 6. MUSIC -->
+    <div class="s-card card-music" style="animation-delay:.3s">
+      <div class="s-title">🎵 Just For You</div>
+      <div class="f-wrap"><label>A Song I'd Dedicate to You</label><input class="f-input trackable" type="text" name="dedicate_song" placeholder="🎶 song name + artist" maxlength="150"/></div>
+      <div class="f-wrap"><label>A Line From That Song</label><textarea class="f-input trackable" name="song_line" placeholder="the lyric that reminds me of you…"></textarea></div>
+      <div class="f-wrap"><label>If Our Friendship Had a Theme Song</label><input class="f-input trackable" type="text" name="theme_song" placeholder="🎵" maxlength="150"/></div>
+    </div>
+
+    <!-- 7. RAPID FIRE -->
+    <div class="s-card card-rapid" style="animation-delay:.35s">
+      <div class="s-title">🔥 Rapid Fire</div>
+      <div id="rfContainer"></div>
+    </div>
+
+    <!-- 8. LAST -->
+    <div class="s-card card-last" style="animation-delay:.4s">
+      <div class="s-title">💖 One Last Thing</div>
+      <div class="f-wrap">
+        <label>A Message For You</label>
+        <textarea class="f-input trackable" name="message" placeholder="pour your heart out 💌" style="height:120px;"></textarea>
+      </div>
+      <div class="remember-wrap">
+        <p>Will you remember me? 🥺</p>
+        <div class="remember-options">
+          <button type="button" class="remember-btn yes" id="remYes" onclick="pickRemember('Yes! Always 💖')">Yes! Always 💖</button>
+          <button type="button" class="remember-btn no" id="remNo" onclick="pickRemember('No option not allowed 😌')">No — wait, nope!</button>
+        </div>
+        <input type="hidden" name="remember_me" id="remVal" value="Yes! Always 💖"/>
+      </div>
+    </div>
+
+    <div class="submit-area">
+      <button type="submit" class="submit-btn" id="submitBtn">
+        💌 Slam It &amp; Send!
+      </button>
+    </div>
+
+  </form>
+
+  <!-- Success -->
+  <div id="successScreen">
+    <div class="success-book">
+      <span class="success-emoji">🌸</span>
+      <div class="success-title">Slammed! 💌</div>
+      <div class="success-sub" id="successMsg">Your words have been delivered!</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ─── RAPID FIRE DATA ──────────────────────────────────────────── */
+const rfData=[
+  {name:'coffee_tea',q:'☕ Coffee or 🍵 Tea?',a:['Coffee ☕','Tea 🍵']},
+  {name:'night_day',q:'🌙 Night or ☀️ Day?',a:['Night 🌙','Day ☀️']},
+  {name:'love_money',q:'💕 Love or 💰 Money?',a:['Love 💕','Money 💰']},
+  {name:'call_text',q:'📞 Call or 💬 Text?',a:['Call 📞','Text 💬']},
+  {name:'mountains_beach',q:'⛰️ Mountains or 🏖️ Beach?',a:['Mountains ⛰️','Beach 🏖️']},
+  {name:'intro_extro',q:'🙈 Introvert or 🦋 Extrovert?',a:['Introvert 🙈','Extrovert 🦋']},
+];
+
+const rfContainer=document.getElementById('rfContainer');
+const rfVals={};
+rfData.forEach(item=>{
+  rfVals[item.name]='';
+  const div=document.createElement('div');
+  div.className='rf-group';
+  div.innerHTML=`
+    <span class="rf-q">${item.q}</span>
+    <div class="rf-options">
+      <button type="button" class="rf-btn trackable" data-name="${item.name}" data-val="${item.a[0]}">${item.a[0]}</button>
+      <button type="button" class="rf-btn trackable" data-name="${item.name}" data-val="${item.a[1]}">${item.a[1]}</button>
+    </div>`;
+  rfContainer.appendChild(div);
+});
+rfContainer.addEventListener('click',e=>{
+  const btn=e.target.closest('.rf-btn');
+  if(!btn)return;
+  const name=btn.dataset.name;
+  const val=btn.dataset.val;
+  rfVals[name]=val;
+  rfContainer.querySelectorAll(`.rf-btn[data-name="${name}"]`).forEach(b=>b.classList.toggle('selected',b===btn));
+  updateProgress();
+});
+
+/* ─── REMEMBER ─────────────────────────────────────────────────── */
+function pickRemember(val){
+  document.getElementById('remVal').value=val;
+  document.getElementById('remYes').classList.toggle('selected',val.startsWith('Yes'));
+  document.getElementById('remNo').classList.toggle('selected',val.startsWith('No'));
+}
+// Default yes
+pickRemember('Yes! Always 💖');
+
+/* ─── PROGRESS ─────────────────────────────────────────────────── */
+function updateProgress(){
+  const trackable=document.querySelectorAll('.trackable');
+  let filled=0;
+  trackable.forEach(el=>{
+    if(el.tagName==='INPUT'||el.tagName==='TEXTAREA'){if(el.value.trim())filled++;}
+    else if(el.classList.contains('rf-btn')&&el.classList.contains('selected'))filled++;
+  });
+  // count rf unique
+  const rfFilled=Object.values(rfVals).filter(v=>v).length;
+  const total=document.querySelectorAll('input.trackable,textarea.trackable').length+rfData.length;
+  const pct=Math.min(100,Math.round(((filled+rfFilled)/total)*100));
+  document.getElementById('pct').textContent=pct+'%';
+  document.getElementById('progFill').style.width=pct+'%';
+}
+document.querySelectorAll('.f-input.trackable').forEach(el=>el.addEventListener('input',updateProgress));
+
+/* ─── TOKEN FROM URL ───────────────────────────────────────────── */
+const token=new URLSearchParams(location.search).get('s')||'';
+
+/* ─── LOAD OWNER ───────────────────────────────────────────────── */
+async function init(){
+  if(!token){
+    document.getElementById('loadTxt').textContent='❌ Invalid link.';return;
+  }
+  try{
+    const r=await fetch(`/api/link/${encodeURIComponent(token)}`);
+    if(!r.ok){document.getElementById('loadTxt').textContent='❌ Slambook not found!';return;}
+    const d=await r.json();
+    document.getElementById('loadScreen').style.display='none';
+    document.getElementById('mainWrap').style.display='block';
+    document.getElementById('ownerName').textContent=d.owner+"'s Slambook";
+    document.title='🌸 '+d.owner+"'s Slambook";
+  }catch{
+    document.getElementById('loadTxt').textContent='❌ Server error. Is Flask running?';
+  }
+}
+init();
+
+/* ─── SUBMIT ───────────────────────────────────────────────────── */
+document.getElementById('slamForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=true;btn.textContent='Sending… 💌';
+
+  const fd=new FormData(e.target);
+  const payload={};
+  fd.forEach((v,k)=>payload[k]=v);
+  // Add rapid fire
+  Object.assign(payload,rfVals);
+
+  if(!payload.full_name){
+    btn.disabled=false;btn.textContent='💌 Slam It & Send!';
+    alert('Please enter your full name!');return;
+  }
+
+  try{
+    const r=await fetch(`/api/submit/${encodeURIComponent(token)}`,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify(payload)
+    });
+    const d=await r.json();
+    if(!r.ok){
+      btn.disabled=false;btn.textContent='💌 Slam It & Send!';
+      alert(d.error||'Something went wrong!');return;
+    }
+    // Success!
+    document.getElementById('slamForm').style.display='none';
+    document.querySelector('.banner').style.display='none';
+    document.querySelector('.progress-wrap').style.display='none';
+    const ss=document.getElementById('successScreen');
+    ss.style.display='flex';
+    document.getElementById('successMsg').textContent=d.message||'Your words have been delivered!';
+  }catch{
+    btn.disabled=false;btn.textContent='💌 Slam It & Send!';
+    alert('Server error. Make sure Flask is running!');
+  }
+});
+</script>
+</body>
+</html>
