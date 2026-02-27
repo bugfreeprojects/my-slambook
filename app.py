@@ -1,13 +1,26 @@
 from flask import Flask, request, jsonify, send_from_directory, session
 from flask_cors import CORS
 import json, os, time, hashlib, re, secrets, uuid
-from datetime import datetime, timedelta
+from datetime import datetime
 from collections import defaultdict
 from functools import wraps
 
 app = Flask(__name__, static_folder=".")
-app.secret_key = "slam-book-super-secret-key-2025-xyz"  # Secure session secret
-CORS(app, supports_credentials=True, origins=["http://localhost:5000","http://127.0.0.1:5000"])
+
+# ─── SECRET KEY: use env var on Render, fallback for local ──────────
+# On Render: set SECRET_KEY in Environment Variables dashboard
+# Locally:   any fixed string works
+app.secret_key = os.environ.get("SECRET_KEY", "slambook-local-dev-key-change-on-render")
+
+# ─── SESSION COOKIE: works on both HTTP (local) and HTTPS (Render) ──
+app.config.update(
+    SESSION_COOKIE_SAMESITE="None",   # needed for cross-origin requests
+    SESSION_COOKIE_SECURE=os.environ.get("RENDER", False),  # True on Render (HTTPS), False locally
+    SESSION_COOKIE_HTTPONLY=True,
+)
+
+# ─── CORS: allow all origins (same-origin on Render, localhost locally) ──
+CORS(app, supports_credentials=True, origins="*")
 
 # ─── SECURITY: Rate Limiter ─────────────────────────────────────────
 rate_store = defaultdict(list)
@@ -246,5 +259,6 @@ def my_responses():
     return jsonify(mine)
 
 if __name__ == "__main__":
-    print("🌸 Slambook running → http://127.0.0.1:5000")
-    app.run(debug=False, port=5000)
+    port = int(os.environ.get("PORT", 5000))  # Render sets PORT automatically
+    print(f"🌸 Slambook running → http://127.0.0.1:{port}")
+    app.run(debug=False, host="0.0.0.0", port=port)
