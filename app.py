@@ -6,7 +6,7 @@ from collections import defaultdict
 from functools import wraps
 
 app = Flask(__name__, static_folder=".")
-app.secret_key = secrets.token_hex(32)  # Secure session secret
+app.secret_key = "slam-book-super-secret-key-2025-xyz"  # Secure session secret
 CORS(app, supports_credentials=True, origins=["http://localhost:5000","http://127.0.0.1:5000"])
 
 # ─── SECURITY: Rate Limiter ─────────────────────────────────────────
