@@ -4,471 +4,530 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>🌸 My Slambook</title>
-<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Josefin+Sans:wght@300;400;600&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<link id="googleFonts" href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;600;700&family=Josefin+Sans:wght@300;400;600&family=Abril+Fatface&family=Dancing+Script:wght@500;700&family=Pacifico&family=Quicksand:wght@400;600&family=Satisfy&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Raleway:wght@300;400;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet"/>
 <style>
+/* ══════════════════════════════════════════════
+   THEME SYSTEM — all colors live here as CSS vars
+   Themes swap these vars on :root
+   ══════════════════════════════════════════════ */
 :root{
-  --cream:#FFF8F0;--blush:#FFD6E0;--lavender:#E8D5F5;--mint:#C8F0E0;
-  --gold:#F5C842;--coral:#FF8B6B;--periwinkle:#B8C5F5;
-  --ink:#2D1B4E;--soft-ink:#6B5B8A;--paper:#FFFDF8;
+  /* Default: Blossom (original pink/lavender) */
+  --bg:#FFF8F0;
+  --bg2:rgba(232,213,245,.55);
+  --bg3:rgba(255,214,224,.5);
+  --bg4:rgba(200,240,224,.3);
+  --paper:#FFFDF8;
+  --spine1:#EDBED0;
+  --spine2:#D4A0B0;
+  --card-border:#D4B5C0;
+  --accent:#FF8B6B;
+  --accent2:#FF6190;
+  --ink:#2D1B4E;
+  --soft-ink:#6B5B8A;
+  --muted:rgba(107,91,138,.3);
+  --c1:#FFD6E0;--c2:#E8D5F5;--c3:#C8F0E0;--c4:#B8C5F5;--c5:#FFD6A5;
+  --rapid-bg:#E8D5F5;
   --shadow:rgba(45,27,78,.12);
+  --tag-bg:#E8D5F5;
+  --header-bg:white;
+  --font-body:'Josefin Sans',sans-serif;
+  --font-hand:'Caveat',cursive;
+  --font-display:'Abril Fatface',serif;
+  --line-color:rgba(180,160,200,.18);
+  --progress-track:#FFD6E0;
+  --blob1:rgba(255,214,224,.5);--blob2:rgba(232,213,245,.45);
 }
 
+/* ── THEME: Midnight 🌙 ─────────────────── */
+.theme-midnight{
+  --bg:#0F0C1A;--bg2:rgba(88,60,140,.35);--bg3:rgba(60,40,100,.3);--bg4:rgba(30,60,100,.25);
+  --paper:#1A1430;--spine1:#3D2B6E;--spine2:#2D1F55;--card-border:#4A3580;
+  --accent:#A78BFA;--accent2:#7C3AED;
+  --ink:#EDE9FF;--soft-ink:#A89CC8;--muted:rgba(168,156,200,.3);
+  --c1:#2D1F55;--c2:#1E1640;--c3:#1A2845;--c4:#251840;--c5:#2A1A35;
+  --rapid-bg:#251840;--shadow:rgba(0,0,0,.5);--tag-bg:#3D2B6E;
+  --header-bg:#120E22;--line-color:rgba(100,80,160,.2);
+  --progress-track:#2D1F55;
+  --blob1:rgba(124,58,237,.2);--blob2:rgba(88,60,140,.2);
+}
+/* ── THEME: Ocean 🌊 ───────────────────── */
+.theme-ocean{
+  --bg:#EAF6FF;--bg2:rgba(147,210,255,.4);--bg3:rgba(100,180,240,.3);--bg4:rgba(180,230,220,.3);
+  --paper:#F5FBFF;--spine1:#7EC8E3;--spine2:#4AACCC;--card-border:#7EC8E3;
+  --accent:#0284C7;--accent2:#0EA5E9;
+  --ink:#0C2D48;--soft-ink:#2E6B8A;--muted:rgba(46,107,138,.3);
+  --c1:#BAE6FD;--c2:#A5F3FC;--c3:#B2F5EA;--c4:#BFDBFE;--c5:#DDD6FE;
+  --rapid-bg:#BAE6FD;--shadow:rgba(12,45,72,.12);--tag-bg:#BAE6FD;
+  --header-bg:white;--line-color:rgba(100,180,220,.18);
+  --progress-track:#BAE6FD;--blob1:rgba(147,210,255,.4);--blob2:rgba(100,180,240,.3);
+}
+/* ── THEME: Forest 🌿 ──────────────────── */
+.theme-forest{
+  --bg:#F0F7F0;--bg2:rgba(134,197,134,.3);--bg3:rgba(100,180,100,.25);--bg4:rgba(200,230,160,.3);
+  --paper:#F8FCF8;--spine1:#A8D5A2;--spine2:#7BBF76;--card-border:#A8D5A2;
+  --accent:#2D7A2D;--accent2:#48A848;
+  --ink:#1A3A1A;--soft-ink:#4A7A4A;--muted:rgba(74,122,74,.3);
+  --c1:#D1FAE5;--c2:#BBF7D0;--c3:#A7F3D0;--c4:#DCFCE7;--c5:#F0FDF4;
+  --rapid-bg:#D1FAE5;--shadow:rgba(26,58,26,.12);--tag-bg:#BBF7D0;
+  --header-bg:white;--line-color:rgba(100,160,100,.18);
+  --progress-track:#D1FAE5;--blob1:rgba(134,197,134,.3);--blob2:rgba(187,247,208,.3);
+}
+/* ── THEME: Sunset 🌅 ──────────────────── */
+.theme-sunset{
+  --bg:#FFF5EE;--bg2:rgba(255,160,80,.3);--bg3:rgba(255,100,60,.25);--bg4:rgba(255,200,100,.3);
+  --paper:#FFFAF5;--spine1:#FFB07C;--spine2:#FF8C42;--card-border:#FFB07C;
+  --accent:#E85D04;--accent2:#F48C06;
+  --ink:#3D1A00;--soft-ink:#8B4500;--muted:rgba(139,69,0,.3);
+  --c1:#FED7AA;--c2:#FDE68A;--c3:#FCA5A5;--c4:#FDBA74;--c5:#FEF3C7;
+  --rapid-bg:#FED7AA;--shadow:rgba(61,26,0,.12);--tag-bg:#FDE68A;
+  --header-bg:white;--line-color:rgba(200,100,40,.15);
+  --progress-track:#FED7AA;--blob1:rgba(255,160,80,.3);--blob2:rgba(255,220,100,.3);
+}
+/* ── THEME: Candy 🍭 ───────────────────── */
+.theme-candy{
+  --bg:#FFF0F8;--bg2:rgba(255,150,220,.3);--bg3:rgba(255,100,200,.25);--bg4:rgba(200,150,255,.3);
+  --paper:#FFF8FC;--spine1:#FFB3D9;--spine2:#FF80C0;--card-border:#FFB3D9;
+  --accent:#E91E8C;--accent2:#FF4DB8;
+  --ink:#3D0030;--soft-ink:#8B1060;--muted:rgba(139,16,96,.3);
+  --c1:#FBCFE8;--c2:#F5D0FE;--c3:#DDD6FE;--c4:#FDE2F3;--c5:#FCE7F3;
+  --rapid-bg:#F5D0FE;--shadow:rgba(61,0,48,.12);--tag-bg:#FBCFE8;
+  --header-bg:white;--line-color:rgba(200,80,160,.15);
+  --progress-track:#FBCFE8;--blob1:rgba(255,150,220,.3);--blob2:rgba(200,100,255,.25);
+}
+/* ── THEME: Dark Rose 🥀 ───────────────── */
+.theme-darkrose{
+  --bg:#1A0A0F;--bg2:rgba(180,40,80,.25);--bg3:rgba(140,20,60,.2);--bg4:rgba(80,10,30,.2);
+  --paper:#250D16;--spine1:#7A1F3D;--spine2:#5A1530;--card-border:#7A1F3D;
+  --accent:#F43F6A;--accent2:#E11D48;
+  --ink:#FFE0EA;--soft-ink:#C9889A;--muted:rgba(201,136,154,.3);
+  --c1:#4C1027;--c2:#3D0A1E;--c3:#2D1020;--c4:#3A0A1A;--c5:#421228;
+  --rapid-bg:#3D0A1E;--shadow:rgba(0,0,0,.5);--tag-bg:#4C1027;
+  --header-bg:#140609;--line-color:rgba(180,40,80,.2);
+  --progress-track:#4C1027;--blob1:rgba(180,40,80,.2);--blob2:rgba(140,20,60,.2);
+}
+
+/* ══════════════════════════════════════════════
+   BASE STYLES
+   ══════════════════════════════════════════════ */
 *{margin:0;padding:0;box-sizing:border-box;}
-
 body{
-  background:var(--cream);
-  font-family:'Josefin Sans',sans-serif;
-  min-height:100vh;
-  overflow-x:hidden;
+  background:var(--bg);
+  font-family:var(--font-body);
+  min-height:100vh;overflow-x:hidden;
+  transition:background .4s,color .4s;
 }
 
-/* ─── BACKGROUND ─────────────────────────────────────────────── */
 .bg-scene{
   position:fixed;inset:0;z-index:0;
   background:
-    radial-gradient(ellipse 80% 50% at 20% 20%,rgba(232,213,245,.6),transparent),
-    radial-gradient(ellipse 60% 40% at 80% 80%,rgba(255,214,224,.5),transparent),
-    radial-gradient(ellipse 50% 60% at 50% 50%,rgba(200,240,224,.3),transparent),
-    var(--cream);
+    radial-gradient(ellipse 80% 50% at 20% 20%,var(--bg2),transparent),
+    radial-gradient(ellipse 60% 40% at 80% 80%,var(--bg3),transparent),
+    radial-gradient(ellipse 50% 60% at 50% 50%,var(--bg4),transparent),
+    var(--bg);
+  transition:background .4s;
 }
-/* Doodle lines */
 .bg-scene::before{
   content:'';position:absolute;inset:0;
-  background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23E8D5F5' stroke-width='0.5'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/svg%3E");
-  opacity:.4;
+  background-image:repeating-linear-gradient(transparent,transparent 39px,var(--line-color) 39px,var(--line-color) 40px);
+  pointer-events:none;
 }
-.floating-shape{
-  position:fixed;pointer-events:none;z-index:1;
-  border-radius:50%;
-  animation:shapeFloat 20s ease-in-out infinite;
-}
-@keyframes shapeFloat{
-  0%,100%{transform:translate(0,0) rotate(0deg);}
-  33%{transform:translate(15px,-25px) rotate(5deg);}
-  66%{transform:translate(-10px,15px) rotate(-3deg);}
-}
+.floaty{position:fixed;pointer-events:none;z-index:1;font-size:1.8rem;animation:floaty 16s ease-in-out infinite;opacity:.45;}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(-4deg);}50%{transform:translateY(-18px) rotate(5deg);}}
 
-/* ─── FLOATING STICKERS ─────────────────────────────────────── */
-.floaty{
-  position:fixed;pointer-events:none;z-index:1;
-  font-size:2rem;
-  animation:floaty 18s ease-in-out infinite;
-  filter:drop-shadow(2px 4px 8px var(--shadow));
-}
-@keyframes floaty{
-  0%,100%{transform:translateY(0) rotate(-5deg);}
-  50%{transform:translateY(-20px) rotate(5deg);}
-}
-
-/* ─── PAGES ──────────────────────────────────────────────────── */
+/* PAGE SYSTEM */
 .page{display:none;min-height:100vh;position:relative;z-index:10;}
-.page.active{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:30px 20px;}
+.page.active{display:flex;flex-direction:column;}
+#authPage{align-items:center;justify-content:center;padding:30px 16px;}
 
-/* ─── AUTH PAGE ──────────────────────────────────────────────── */
-#authPage{
-  background:transparent;
-}
+/* ══════════════════════════════════════════════
+   AUTH BOOK
+   ══════════════════════════════════════════════ */
 .auth-book{
   background:var(--paper);
   border-radius:4px 20px 20px 4px;
   width:100%;max-width:480px;
-  box-shadow:
-    -4px 0 0 #D4B5C0,
-    8px 8px 40px rgba(45,27,78,.15),
-    -2px 0 0 #C9A8B5;
-  position:relative;
-  overflow:hidden;
-  animation:bookIn .8s cubic-bezier(.34,1.56,.64,1) forwards;
+  box-shadow:-4px 0 0 var(--card-border),8px 8px 40px var(--shadow),-2px 0 0 var(--spine2);
+  position:relative;overflow:hidden;
+  animation:bookIn .7s cubic-bezier(.34,1.56,.64,1) both;
+  transition:background .4s,box-shadow .4s;
 }
-@keyframes bookIn{
-  from{transform:scale(.8) rotateY(-15deg);opacity:0;}
-  to{transform:scale(1) rotateY(0);opacity:1;}
-}
+@keyframes bookIn{from{transform:scale(.82) rotateY(-10deg);opacity:0;}to{transform:scale(1) rotateY(0deg);opacity:1;}}
 .auth-book::before{
-  content:'';
-  position:absolute;left:0;top:0;bottom:0;width:36px;
-  background:linear-gradient(180deg,#E8B4C0,#D4A0B0 40%,#E8B4C0);
-  border-right:2px solid rgba(255,255,255,.5);
+  content:'';position:absolute;left:0;top:0;bottom:0;width:34px;
+  background:linear-gradient(180deg,var(--spine1),var(--spine2) 45%,var(--spine1));
+  border-right:1.5px solid rgba(255,255,255,.35);z-index:1;
 }
-/* Ruling lines */
 .auth-book::after{
-  content:'';position:absolute;inset:0;
-  background-image:repeating-linear-gradient(
-    transparent,transparent 31px,rgba(180,160,200,.2) 31px,rgba(180,160,200,.2) 32px
-  );
-  pointer-events:none;
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:repeating-linear-gradient(transparent,transparent 31px,var(--line-color) 31px,var(--line-color) 32px);
 }
-.auth-inner{padding:40px 40px 40px 60px;position:relative;z-index:2;}
-.auth-title{
-  font-family:'Caveat',cursive;
-  font-size:2.6rem;color:var(--ink);
-  margin-bottom:4px;line-height:1;
+.auth-inner{padding:36px 34px 34px 56px;position:relative;z-index:2;}
+
+.auth-logo{
+  font-family:var(--font-display);
+  font-size:2.3rem;color:var(--ink);line-height:1;margin-bottom:2px;
+  transition:color .4s;
 }
-.auth-title span{color:var(--coral);}
-.auth-sub{
-  font-family:'Caveat',cursive;
-  font-size:1rem;color:var(--soft-ink);
-  margin-bottom:28px;
-}
-.auth-tabs{
-  display:flex;gap:0;margin-bottom:24px;
-  border-bottom:2px solid var(--blush);
-}
+.auth-logo em{color:var(--accent);font-style:normal;}
+.auth-tagline{font-family:var(--font-hand);font-size:1rem;color:var(--soft-ink);margin-bottom:20px;}
+
+.auth-tabs{display:flex;border-bottom:2px solid var(--c1);margin-bottom:20px;}
 .tab-btn{
-  flex:1;padding:8px;
-  background:none;border:none;
-  font-family:'Josefin Sans',sans-serif;
-  font-size:.8rem;letter-spacing:2px;text-transform:uppercase;
-  color:var(--soft-ink);cursor:pointer;
-  transition:all .2s;
-  border-bottom:2px solid transparent;
-  margin-bottom:-2px;
+  flex:1;padding:9px;background:none;border:none;
+  font-family:var(--font-body);font-size:.75rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--soft-ink);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;
 }
-.tab-btn.active{color:var(--coral);border-bottom-color:var(--coral);}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);}
 
-.auth-form{display:none;}
+.auth-form{display:none;animation:fadeUp .3s ease both;}
 .auth-form.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
 
-.field-group{margin-bottom:16px;}
-.field-group label{
-  display:block;
-  font-size:.7rem;letter-spacing:2px;text-transform:uppercase;
-  color:var(--soft-ink);margin-bottom:5px;
-}
-.field-group input{
+.fg{margin-bottom:14px;}
+.fg label{display:block;font-size:.68rem;letter-spacing:1.8px;text-transform:uppercase;color:var(--soft-ink);margin-bottom:5px;}
+.fg input{
   width:100%;padding:10px 14px;
-  background:rgba(255,255,255,.6);
-  border:1.5px solid rgba(180,160,200,.3);
+  background:rgba(255,255,255,.08);
+  border:1.5px solid rgba(180,160,200,.28);border-radius:9px;
+  font-family:var(--font-hand);font-size:1.1rem;color:var(--ink);
+  outline:none;transition:border-color .2s,box-shadow .2s,background .2s;
+}
+.fg input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,139,107,.12);background:rgba(255,255,255,.15);}
+.fg input::placeholder{color:var(--muted);font-style:italic;}
+.err-msg{font-size:.74rem;color:#e05a5a;margin-top:4px;min-height:16px;}
+
+/* ── DISCLAIMER ──────────────────────────────────────────────── */
+.disclaimer{
+  margin-top:12px;padding:10px 14px;
+  background:rgba(255,200,100,.12);
+  border:1.5px solid rgba(255,160,50,.3);
   border-radius:8px;
-  font-family:'Caveat',cursive;
-  font-size:1.1rem;color:var(--ink);
-  outline:none;
-  transition:border-color .2s,box-shadow .2s;
+  font-size:.72rem;color:var(--soft-ink);line-height:1.6;
 }
-.field-group input:focus{
-  border-color:var(--coral);
-  box-shadow:0 0 0 3px rgba(255,139,107,.1);
-}
-.error-msg{
-  font-size:.75rem;color:#e05a5a;
-  margin-top:4px;display:none;
-}
+.disclaimer strong{color:var(--accent);}
+
 .auth-btn{
-  width:100%;padding:12px;
-  background:linear-gradient(135deg,var(--coral),#FF6B9E);
+  width:100%;padding:12px;margin-top:8px;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
   border:none;border-radius:10px;
-  font-family:'Caveat',cursive;
-  font-size:1.3rem;letter-spacing:1px;
-  color:white;cursor:pointer;
-  margin-top:8px;
-  transition:transform .15s,box-shadow .2s;
-  box-shadow:0 4px 20px rgba(255,139,107,.4);
+  font-family:var(--font-hand);font-size:1.25rem;letter-spacing:.5px;
+  color:white;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,.2);
+  transition:transform .15s,box-shadow .15s;
 }
-.auth-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(255,139,107,.5);}
-.auth-btn:active{transform:translateY(0);}
+.auth-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,.25);}
+.auth-btn:active{transform:translateY(1px);}
+.auth-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
 
-/* ─── DASHBOARD ──────────────────────────────────────────────── */
-#dashPage{
-  background:transparent;
-  align-items:stretch;
-  justify-content:flex-start;
-  padding:0;
-}
-.dash-header{
-  background:white;
-  padding:16px 32px;
+/* ══════════════════════════════════════════════
+   DASHBOARD
+   ══════════════════════════════════════════════ */
+.dash-hdr{
+  background:var(--header-bg);padding:13px 26px;
   display:flex;align-items:center;justify-content:space-between;
-  box-shadow:0 2px 20px var(--shadow);
-  position:sticky;top:0;z-index:100;
+  box-shadow:0 2px 18px var(--shadow);position:sticky;top:0;z-index:50;
+  transition:background .4s;
 }
-.dash-logo{
-  font-family:'Caveat',cursive;
-  font-size:1.8rem;color:var(--ink);
-}
-.dash-logo span{color:var(--coral);}
-.dash-user{
-  display:flex;align-items:center;gap:12px;
-}
-.user-bubble{
-  width:36px;height:36px;border-radius:50%;
-  background:linear-gradient(135deg,var(--lavender),var(--blush));
+.dash-logo{font-family:var(--font-display);font-size:1.55rem;color:var(--ink);}
+.dash-logo em{color:var(--accent);font-style:normal;}
+.hdr-right{display:flex;align-items:center;gap:10px;}
+.avatar{
+  width:34px;height:34px;border-radius:50%;
+  background:linear-gradient(135deg,var(--c2),var(--c1));
   display:flex;align-items:center;justify-content:center;
-  font-family:'Caveat',cursive;font-size:1rem;color:var(--ink);
-  font-weight:700;
+  font-family:var(--font-hand);font-weight:700;font-size:.95rem;color:var(--ink);
 }
-.username-lbl{font-size:.85rem;color:var(--soft-ink);letter-spacing:1px;}
-.logout-btn{
-  padding:6px 14px;border:1.5px solid var(--blush);border-radius:20px;
-  background:none;font-family:'Josefin Sans',sans-serif;
-  font-size:.75rem;letter-spacing:1px;color:var(--soft-ink);cursor:pointer;
-  transition:all .2s;
+.uname-lbl{font-size:.8rem;color:var(--soft-ink);letter-spacing:.8px;}
+.hdr-btn{
+  padding:6px 14px;border:1.5px solid var(--c1);border-radius:20px;
+  background:none;font-family:var(--font-body);font-size:.72rem;letter-spacing:1px;
+  color:var(--soft-ink);cursor:pointer;transition:all .2s;
 }
-.logout-btn:hover{background:var(--blush);color:var(--ink);}
+.hdr-btn:hover{background:var(--c1);color:var(--ink);}
+.theme-toggle-btn{
+  width:34px;height:34px;border-radius:50%;
+  border:1.5px solid var(--c1);background:none;cursor:pointer;
+  font-size:1.1rem;display:flex;align-items:center;justify-content:center;
+  transition:transform .2s,background .2s;
+}
+.theme-toggle-btn:hover{transform:scale(1.12);background:var(--c1);}
 
-.dash-body{
-  flex:1;padding:32px;
-  max-width:1000px;margin:0 auto;width:100%;
-}
+.dash-body{flex:1;padding:26px;max-width:980px;margin:0 auto;width:100%;}
 
-/* Link box */
 .link-card{
-  background:white;
-  border-radius:16px;
-  padding:28px;
-  margin-bottom:28px;
-  box-shadow:0 4px 24px var(--shadow);
-  border:1.5px dashed rgba(255,139,107,.3);
-  position:relative;
-  overflow:hidden;
+  background:var(--paper);border-radius:18px;padding:24px;margin-bottom:26px;
+  box-shadow:0 4px 22px var(--shadow);border:1.5px dashed rgba(180,160,200,.28);
+  position:relative;overflow:hidden;transition:background .4s;
 }
-.link-card::before{
-  content:'📮';
-  position:absolute;top:-10px;right:20px;
-  font-size:3rem;opacity:.15;
-}
-.link-card h3{
-  font-family:'Caveat',cursive;
-  font-size:1.5rem;color:var(--ink);margin-bottom:6px;
-}
-.link-card p{font-size:.8rem;color:var(--soft-ink);margin-bottom:16px;letter-spacing:.5px;}
-.link-box{
+.link-card::after{content:'📮';position:absolute;top:-6px;right:16px;font-size:2.8rem;opacity:.1;pointer-events:none;}
+.link-card h3{font-family:var(--font-hand);font-size:1.45rem;color:var(--ink);margin-bottom:4px;}
+.link-card p{font-size:.77rem;color:var(--soft-ink);margin-bottom:13px;letter-spacing:.3px;}
+.link-row{
   display:flex;gap:10px;align-items:center;
-  background:var(--cream);border-radius:10px;
-  padding:12px 16px;
-  border:1px solid rgba(180,160,200,.3);
+  background:var(--bg);border-radius:10px;padding:10px 15px;
+  border:1px solid rgba(180,160,200,.2);
 }
-.link-box span{
-  font-family:'Caveat',cursive;
-  font-size:1rem;color:var(--coral);
-  flex:1;word-break:break-all;
-}
+.link-row span{font-family:var(--font-hand);font-size:.95rem;color:var(--accent);flex:1;word-break:break-all;}
 .copy-btn{
-  padding:8px 16px;
-  background:linear-gradient(135deg,var(--coral),#FF6B9E);
-  border:none;border-radius:8px;
-  font-family:'Josefin Sans',sans-serif;
-  font-size:.75rem;letter-spacing:1px;
-  color:white;cursor:pointer;white-space:nowrap;
-  transition:transform .15s;
+  padding:7px 16px;background:linear-gradient(135deg,var(--accent),var(--accent2));
+  border:none;border-radius:8px;font-family:var(--font-body);
+  font-size:.72rem;letter-spacing:1px;color:white;cursor:pointer;white-space:nowrap;transition:transform .15s;
 }
 .copy-btn:hover{transform:scale(1.05);}
 
-/* Section heading */
-.section-head{
-  font-family:'Caveat',cursive;
-  font-size:1.8rem;color:var(--ink);
-  margin-bottom:20px;
-  display:flex;align-items:center;gap:10px;
+.sec-head{
+  font-family:var(--font-hand);font-size:1.65rem;color:var(--ink);
+  margin-bottom:16px;display:flex;align-items:center;gap:10px;
 }
-.section-head::after{
-  content:'';flex:1;height:1px;
-  background:linear-gradient(90deg,rgba(180,160,200,.4),transparent);
-}
+.sec-head::after{content:'';flex:1;height:1px;background:linear-gradient(90deg,var(--c2),transparent);}
 
-/* Response cards grid */
-.responses-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
-  gap:20px;
-}
+.r-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:18px;}
 .r-card{
-  background:var(--paper);
-  border-radius:12px;
-  padding:20px;
-  box-shadow:4px 4px 20px var(--shadow);
-  cursor:pointer;
-  transition:transform .2s,box-shadow .2s;
-  position:relative;
-  border-top:3px solid var(--blush);
+  background:var(--paper);border-radius:14px;padding:20px;
+  box-shadow:4px 4px 18px var(--shadow);cursor:pointer;
+  transition:transform .22s,box-shadow .22s,background .4s;
+  position:relative;border-top:3px solid var(--c1);
+  opacity:0;transform:translateY(14px);
   animation:cardIn .4s ease forwards;
-  transform:translateY(16px);opacity:0;
 }
-.r-card:hover{
-  transform:translateY(-4px) rotate(.5deg);
-  box-shadow:6px 8px 30px var(--shadow);
+.r-card:hover{transform:translateY(-5px) rotate(.4deg);box-shadow:6px 8px 28px var(--shadow);}
+@keyframes cardIn{to{opacity:1;transform:translateY(0);}}
+.r-card .stk{position:absolute;top:-13px;right:12px;font-size:1.7rem;animation:wobble 3.5s ease-in-out infinite;}
+@keyframes wobble{0%,100%{transform:rotate(-6deg);}50%{transform:rotate(8deg);}}
+.rn{font-family:var(--font-hand);font-size:1.35rem;color:var(--ink);margin-bottom:2px;}
+.rk{font-size:.72rem;color:var(--soft-ink);letter-spacing:.9px;margin-bottom:8px;}
+.rp{font-size:.78rem;color:var(--soft-ink);line-height:1.6;font-style:italic;}
+.rb{display:inline-block;padding:3px 10px;border-radius:20px;background:var(--tag-bg);font-size:.63rem;letter-spacing:1px;color:var(--soft-ink);margin-top:6px;}
+.rt{font-size:.63rem;color:var(--muted);margin-top:8px;}
+.del-btn{
+  position:absolute;bottom:12px;right:12px;
+  width:28px;height:28px;border-radius:50%;
+  background:rgba(220,50,50,.08);border:1.5px solid rgba(220,50,50,.2);
+  color:#e05a5a;font-size:.85rem;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .2s;opacity:0;
 }
-@keyframes cardIn{to{transform:translateY(0);opacity:1;}}
-.r-card .sticker{
-  position:absolute;top:-14px;right:14px;
-  font-size:1.8rem;
-  animation:wobble 3s ease-in-out infinite;
+.r-card:hover .del-btn{opacity:1;}
+.del-btn:hover{background:#ffe0e0;border-color:#e05a5a;transform:scale(1.15);}
+.r-card.deleting{animation:cardOut .35s ease forwards;}
+@keyframes cardOut{to{opacity:0;transform:scale(.85) translateY(-8px);}}
+
+.empty-state{text-align:center;padding:50px 20px;grid-column:1/-1;}
+.empty-state .em{font-size:3.2rem;display:block;margin-bottom:14px;}
+.empty-state h4{font-family:var(--font-hand);font-size:1.4rem;color:var(--ink);margin-bottom:6px;}
+.empty-state p{font-size:.78rem;color:var(--soft-ink);}
+
+/* ══════════════════════════════════════════════
+   THEME PANEL
+   ══════════════════════════════════════════════ */
+#themePanel{
+  position:fixed;top:0;right:-340px;width:320px;height:100vh;
+  background:var(--paper);z-index:500;
+  box-shadow:-6px 0 30px var(--shadow);
+  transition:right .35s cubic-bezier(.34,1.2,.64,1),background .4s;
+  overflow-y:auto;padding:24px 20px;
 }
-@keyframes wobble{
-  0%,100%{transform:rotate(-5deg);}
-  50%{transform:rotate(8deg);}
+#themePanel.open{right:0;}
+#themePanel::-webkit-scrollbar{width:3px;}
+#themePanel::-webkit-scrollbar-thumb{background:var(--c2);}
+
+.tp-header{
+  display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;
 }
-.r-name{
-  font-family:'Caveat',cursive;
-  font-size:1.4rem;color:var(--ink);margin-bottom:2px;
+.tp-title{font-family:var(--font-hand);font-size:1.6rem;color:var(--ink);}
+.tp-close{
+  width:30px;height:30px;border-radius:50%;background:var(--c1);
+  border:none;cursor:pointer;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .2s;
 }
-.r-nick{font-size:.75rem;color:var(--soft-ink);letter-spacing:1px;margin-bottom:10px;}
-.r-preview{font-size:.8rem;color:var(--soft-ink);line-height:1.6;font-style:italic;}
-.r-time{font-size:.65rem;color:rgba(107,91,138,.4);margin-top:10px;}
-.r-badge{
-  display:inline-block;
-  padding:3px 10px;border-radius:20px;
-  background:var(--lavender);
-  font-size:.65rem;letter-spacing:1px;
-  color:var(--soft-ink);margin-top:6px;
+.tp-close:hover{transform:scale(1.1);}
+
+.tp-section{margin-bottom:22px;}
+.tp-section-lbl{
+  font-size:.68rem;letter-spacing:2px;text-transform:uppercase;
+  color:var(--soft-ink);margin-bottom:10px;
 }
 
-.empty-state{
-  text-align:center;padding:60px 20px;
-  grid-column:1/-1;
+/* Theme swatches */
+.theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.t-swatch{
+  border-radius:10px;padding:10px 6px;text-align:center;
+  cursor:pointer;border:2px solid transparent;
+  transition:transform .15s,border-color .15s;
+  font-family:var(--font-body);font-size:.68rem;letter-spacing:.5px;
 }
-.empty-state .emoji{font-size:4rem;display:block;margin-bottom:16px;}
-.empty-state h4{font-family:'Caveat',cursive;font-size:1.5rem;color:var(--ink);margin-bottom:8px;}
-.empty-state p{font-size:.8rem;color:var(--soft-ink);letter-spacing:.5px;}
+.t-swatch:hover{transform:scale(1.05);}
+.t-swatch.active{border-color:var(--accent);transform:scale(1.06);}
+.t-dot{width:28px;height:28px;border-radius:50%;margin:0 auto 5px;}
 
-/* ─── TOAST ──────────────────────────────────────────────────── */
+/* Font cards */
+.font-list{display:flex;flex-direction:column;gap:8px;}
+.f-card{
+  padding:12px 14px;border-radius:10px;
+  background:var(--bg);border:2px solid transparent;
+  cursor:pointer;transition:all .15s;
+}
+.f-card:hover{border-color:var(--c2);}
+.f-card.active{border-color:var(--accent);background:var(--c1);}
+.f-card-name{font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--soft-ink);margin-bottom:4px;}
+.f-card-preview{font-size:1.25rem;color:var(--ink);}
+
+/* Overlay */
+#themeOverlay{
+  position:fixed;inset:0;z-index:499;background:rgba(0,0,0,.25);
+  display:none;backdrop-filter:blur(2px);
+}
+#themeOverlay.open{display:block;}
+
+/* ══════════════════════════════════════════════
+   MODAL
+   ══════════════════════════════════════════════ */
+#modal{
+  position:fixed;inset:0;z-index:1000;
+  background:rgba(0,0,0,.45);backdrop-filter:blur(8px);
+  display:none;align-items:center;justify-content:center;padding:16px;
+}
+#modal.open{display:flex;}
+.m-book{
+  background:var(--paper);border-radius:4px 20px 20px 4px;
+  max-width:680px;width:100%;max-height:90vh;overflow-y:auto;
+  box-shadow:-4px 0 0 var(--card-border),8px 8px 48px var(--shadow);
+  animation:mIn .4s cubic-bezier(.34,1.56,.64,1);transition:background .4s;
+}
+.m-book::-webkit-scrollbar{width:4px;}
+.m-book::-webkit-scrollbar-thumb{background:var(--c1);border-radius:2px;}
+@keyframes mIn{from{transform:scale(.84);opacity:0;}to{transform:scale(1);opacity:1;}}
+.m-spine{
+  position:sticky;top:0;z-index:2;display:flex;align-items:center;justify-content:space-between;
+  padding:18px 24px;background:linear-gradient(135deg,var(--c2),var(--c1));border-radius:0 20px 0 0;
+}
+.m-title{font-family:var(--font-hand);font-size:1.9rem;color:var(--ink);}
+.m-close{
+  width:30px;height:30px;border-radius:50%;background:white;border:none;cursor:pointer;
+  font-size:1.1rem;display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 10px var(--shadow);transition:transform .2s;
+}
+.m-close:hover{transform:scale(1.12);}
+.m-body{padding:24px;}
+.qs{margin-bottom:24px;}
+.qs-title{
+  font-family:var(--font-hand);font-size:1.15rem;color:var(--accent);
+  border-bottom:1.5px dashed rgba(180,160,200,.3);padding-bottom:5px;margin-bottom:12px;
+}
+.qrow{margin-bottom:9px;padding-bottom:9px;border-bottom:1px solid var(--line-color);}
+.ql{font-size:.67rem;letter-spacing:1.4px;text-transform:uppercase;color:var(--soft-ink);}
+.qv{font-family:var(--font-hand);font-size:1.08rem;color:var(--ink);line-height:1.4;}
+.qv.empty{color:var(--muted);font-style:italic;font-size:.88rem;}
+.rf-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.rfi{background:var(--rapid-bg);border-radius:8px;padding:9px 13px;transition:background .4s;}
+.m-print{
+  margin:0 24px 24px;width:calc(100% - 48px);padding:10px;
+  background:var(--c3);border:none;border-radius:10px;
+  font-family:var(--font-hand);font-size:1.05rem;color:var(--ink);
+  cursor:pointer;transition:transform .15s;display:block;
+}
+.m-print:hover{transform:scale(1.02);}
+
+/* TOAST */
 #toast{
-  position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(20px);
-  background:var(--ink);color:white;
-  font-family:'Caveat',cursive;font-size:1.1rem;
-  padding:12px 28px;border-radius:50px;
-  z-index:9999;opacity:0;
-  transition:all .3s;pointer-events:none;
+  position:fixed;bottom:28px;left:50%;
+  transform:translateX(-50%) translateY(16px);
+  background:var(--ink);color:var(--bg);
+  font-family:var(--font-hand);font-size:1.1rem;
+  padding:12px 28px;border-radius:50px;z-index:9999;opacity:0;transition:all .3s;pointer-events:none;
 }
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 
-/* ─── MODAL (view full response) ─────────────────────────────── */
-#modal{
-  position:fixed;inset:0;z-index:1000;
-  background:rgba(45,27,78,.5);backdrop-filter:blur(8px);
-  display:none;align-items:center;justify-content:center;padding:20px;
+/* CONFIRM */
+#confirmBox{
+  position:fixed;inset:0;z-index:2000;display:none;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.4);backdrop-filter:blur(6px);
 }
-#modal.open{display:flex;}
-.modal-book{
-  background:var(--paper);
-  border-radius:4px 20px 20px 4px;
-  max-width:700px;width:100%;
-  max-height:90vh;overflow-y:auto;
-  box-shadow:-4px 0 0 #D4B5C0, 8px 8px 50px rgba(45,27,78,.3);
-  position:relative;animation:modalIn .4s cubic-bezier(.34,1.56,.64,1);
+#confirmBox.open{display:flex;}
+.confirm-card{
+  background:var(--paper);border-radius:18px;padding:30px 26px;
+  max-width:330px;width:90%;text-align:center;
+  box-shadow:0 8px 40px var(--shadow);animation:popIn .3s cubic-bezier(.34,1.56,.64,1);
 }
-@keyframes modalIn{from{transform:scale(.85);opacity:0;}to{transform:scale(1);opacity:1;}}
-.modal-spine{
-  position:sticky;top:0;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:20px 28px 20px 20px;
-  background:linear-gradient(135deg,var(--lavender),var(--blush));
-  border-radius:0 20px 0 0;
-  z-index:2;
+@keyframes popIn{from{transform:scale(.8);opacity:0;}to{transform:scale(1);opacity:1;}}
+.confirm-emoji{font-size:2.4rem;display:block;margin-bottom:10px;}
+.confirm-title{font-family:var(--font-hand);font-size:1.45rem;color:var(--ink);margin-bottom:6px;}
+.confirm-sub{font-size:.78rem;color:var(--soft-ink);margin-bottom:20px;line-height:1.5;}
+.confirm-btns{display:flex;gap:10px;justify-content:center;}
+.confirm-yes{
+  padding:9px 22px;border-radius:20px;border:none;
+  background:linear-gradient(135deg,#FF6B6B,#e03c3c);
+  font-family:var(--font-hand);font-size:1.05rem;color:white;cursor:pointer;transition:transform .15s;
 }
-.modal-name{font-family:'Caveat',cursive;font-size:2rem;color:var(--ink);}
-.close-btn{
-  width:32px;height:32px;border-radius:50%;
-  background:white;border:none;cursor:pointer;
-  font-size:1.2rem;display:flex;align-items:center;justify-content:center;
-  box-shadow:0 2px 10px var(--shadow);transition:transform .2s;
+.confirm-yes:hover{transform:scale(1.05);}
+.confirm-no{
+  padding:9px 22px;border-radius:20px;border:1.5px solid var(--c1);background:none;
+  font-family:var(--font-hand);font-size:1.05rem;color:var(--soft-ink);cursor:pointer;transition:all .15s;
 }
-.close-btn:hover{transform:scale(1.1);}
-.modal-content{padding:28px;}
-
-/* Section blocks in modal */
-.q-section{margin-bottom:28px;}
-.q-section-title{
-  font-family:'Caveat',cursive;
-  font-size:1.2rem;color:var(--coral);
-  border-bottom:1.5px dashed rgba(255,139,107,.3);
-  padding-bottom:6px;margin-bottom:14px;
-}
-.q-row{
-  display:flex;gap:8px;margin-bottom:10px;
-  padding-bottom:10px;
-  border-bottom:1px solid rgba(180,160,200,.15);
-  flex-direction:column;
-}
-.q-label{
-  font-size:.7rem;letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--soft-ink);
-}
-.q-value{
-  font-family:'Caveat',cursive;
-  font-size:1.1rem;color:var(--ink);line-height:1.4;
-}
-.q-value.empty{color:rgba(107,91,138,.3);font-style:italic;font-size:.9rem;}
-
-.rapid-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
-.rapid-item{
-  background:var(--lavender);border-radius:8px;padding:10px 14px;
-}
-
-/* Print button */
-.print-btn{
-  margin:0 28px 28px;
-  padding:10px;width:calc(100% - 56px);
-  background:var(--mint);border:none;border-radius:10px;
-  font-family:'Caveat',cursive;font-size:1.1rem;color:var(--ink);
-  cursor:pointer;transition:transform .15s;
-}
-.print-btn:hover{transform:scale(1.02);}
+.confirm-no:hover{background:var(--c1);}
 </style>
 </head>
 <body>
 
-<!-- Background -->
 <div class="bg-scene"></div>
-<div class="floating-shape" style="width:200px;height:200px;background:radial-gradient(var(--blush),transparent);top:10%;left:5%;animation-delay:0s;"></div>
-<div class="floating-shape" style="width:150px;height:150px;background:radial-gradient(var(--lavender),transparent);bottom:15%;right:8%;animation-delay:-7s;"></div>
-<span class="floaty" style="top:15%;right:12%;animation-delay:0s;">🌸</span>
-<span class="floaty" style="bottom:20%;left:8%;animation-delay:-5s;">✨</span>
-<span class="floaty" style="top:50%;right:5%;animation-delay:-10s;">💌</span>
-<span class="floaty" style="top:25%;left:12%;animation-delay:-3s;">🦋</span>
+<span class="floaty" style="top:12%;right:8%;animation-delay:0s;">🌸</span>
+<span class="floaty" style="bottom:20%;left:5%;animation-delay:-5s;">✨</span>
+<span class="floaty" style="top:55%;right:3%;animation-delay:-10s;">💌</span>
+<span class="floaty" style="top:30%;left:8%;animation-delay:-3s;">🦋</span>
 
-<!-- ─── AUTH PAGE ─────────────────────────────────────────────── -->
+<!-- ═══════════════ AUTH PAGE ═══════════════ -->
 <div class="page active" id="authPage">
   <div class="auth-book">
     <div class="auth-inner">
-      <div class="auth-title">My<span> Slambook</span> 📓</div>
-      <div class="auth-sub">where friends leave their mark ✨</div>
+      <div class="auth-logo">My <em>Slambook</em> 📓</div>
+      <div class="auth-tagline">where friends leave their mark ✨</div>
 
       <div class="auth-tabs">
         <button class="tab-btn active" onclick="switchTab('login')">Sign In</button>
         <button class="tab-btn" onclick="switchTab('register')">Create Book</button>
       </div>
 
-      <form class="auth-form active" id="loginForm" onsubmit="handleLogin(event)">
-        <div class="field-group">
-          <label>Username</label>
-          <input type="text" id="l-user" placeholder="your name here..." autocomplete="username"/>
-        </div>
-        <div class="field-group">
-          <label>Password</label>
-          <input type="password" id="l-pass" placeholder="shhh 🤫" autocomplete="current-password"/>
-        </div>
-        <div class="error-msg" id="loginErr"></div>
-        <button class="auth-btn" type="submit">Open My Slambook 📖</button>
-      </form>
+      <!-- LOGIN -->
+      <div class="auth-form active" id="loginForm">
+        <div class="fg"><label>Username</label>
+          <input type="text" id="lUser" placeholder="your name here…" autocomplete="username"/></div>
+        <div class="fg"><label>Password</label>
+          <input type="password" id="lPass" placeholder="shhh 🤫" autocomplete="current-password"/></div>
+        <div class="err-msg" id="lErr"></div>
+        <button class="auth-btn" id="lBtn" onclick="handleLogin()">Open My Slambook 📖</button>
+      </div>
 
-      <form class="auth-form" id="registerForm" onsubmit="handleRegister(event)">
-        <div class="field-group">
-          <label>Your Name</label>
-          <input type="text" id="r-user" placeholder="what do friends call you?"/>
+      <!-- REGISTER -->
+      <div class="auth-form" id="registerForm">
+        <div class="fg"><label>Your Name</label>
+          <input type="text" id="rUser" placeholder="what do friends call you?"/></div>
+        <div class="fg"><label>Email</label>
+          <input type="email" id="rEmail" placeholder="your@email.com" autocomplete="email"/></div>
+        <div class="fg"><label>Password (6+ chars)</label>
+          <input type="password" id="rPass" placeholder="make it secret 🔒" autocomplete="new-password"/></div>
+        <div class="err-msg" id="rErr"></div>
+
+        <!-- ⚠️ DISCLAIMER -->
+        <div class="disclaimer">
+          ⚠️ <strong>Please note:</strong> Once your password is set, it <strong>cannot be reset or recovered</strong>. There is no "Forgot Password" option. Please remember it carefully or store it somewhere safe!
         </div>
-        <div class="field-group">
-          <label>Email</label>
-          <input type="email" id="r-email" placeholder="your@email.com" autocomplete="email"/>
-        </div>
-        <div class="field-group">
-          <label>Password (6+ chars)</label>
-          <input type="password" id="r-pass" placeholder="make it secret 🔒" autocomplete="new-password"/>
-        </div>
-        <div class="error-msg" id="regErr"></div>
-        <button class="auth-btn" type="submit">Create My Slambook 🌸</button>
-      </form>
+
+        <button class="auth-btn" id="rBtn" onclick="handleRegister()">Create My Slambook 🌸</button>
+      </div>
+
     </div>
   </div>
 </div>
 
-<!-- ─── DASHBOARD ─────────────────────────────────────────────── -->
+<!-- ═══════════════ DASHBOARD ═══════════════ -->
 <div class="page" id="dashPage">
-  <div class="dash-header">
-    <div class="dash-logo">My<span> Slambook</span> 📓</div>
-    <div class="dash-user">
-      <div class="user-bubble" id="userInitial">?</div>
-      <span class="username-lbl" id="displayName"></span>
-      <button class="logout-btn" onclick="handleLogout()">Sign Out</button>
+  <div class="dash-hdr">
+    <div class="dash-logo">My <em>Slambook</em> 📓</div>
+    <div class="hdr-right">
+      <button class="theme-toggle-btn" onclick="openThemePanel()" title="Customize theme">🎨</button>
+      <div class="avatar" id="av">?</div>
+      <span class="uname-lbl" id="unameDisp"></span>
+      <button class="hdr-btn" onclick="handleLogout()">Sign Out</button>
     </div>
   </div>
 
@@ -476,236 +535,354 @@ body{
     <div class="link-card">
       <h3>Share Your Slambook 💌</h3>
       <p>Send this link to your friends — they'll fill it out just for you!</p>
-      <div class="link-box">
-        <span id="shareLink">Loading...</span>
+      <div class="link-row">
+        <span id="shareLink">generating…</span>
         <button class="copy-btn" onclick="copyLink()">📋 Copy</button>
       </div>
     </div>
-
-    <div class="section-head">💌 Slams I've Received</div>
-    <div class="responses-grid" id="responsesGrid">
-      <div class="empty-state">
-        <span class="emoji">📭</span>
-        <h4>No slams yet!</h4>
-        <p>Share your link and wait for the love to pour in~</p>
-      </div>
+    <div class="sec-head">💌 Slams I've Received</div>
+    <div class="r-grid" id="rGrid">
+      <div class="empty-state"><span class="em">📭</span><h4>No slams yet!</h4><p>Share your link and wait for the love~</p></div>
     </div>
   </div>
 </div>
 
-<!-- ─── FULL RESPONSE MODAL ─────────────────────────────────────── -->
-<div id="modal" onclick="closeModal(event)">
-  <div class="modal-book" id="modalBook">
-    <div class="modal-spine">
-      <div class="modal-name" id="modalName"></div>
-      <button class="close-btn" onclick="closeModal()">✕</button>
+<!-- ═══════════════ THEME PANEL ═══════════════ -->
+<div id="themeOverlay" onclick="closeThemePanel()"></div>
+<div id="themePanel">
+  <div class="tp-header">
+    <div class="tp-title">🎨 Customize</div>
+    <button class="tp-close" onclick="closeThemePanel()">✕</button>
+  </div>
+
+  <!-- THEMES -->
+  <div class="tp-section">
+    <div class="tp-section-lbl">🌈 Themes</div>
+    <div class="theme-grid" id="themeGrid"></div>
+  </div>
+
+  <!-- FONTS -->
+  <div class="tp-section">
+    <div class="tp-section-lbl">✍️ Fonts</div>
+    <div class="font-list" id="fontList"></div>
+  </div>
+</div>
+
+<!-- ═══════════════ MODAL ═══════════════ -->
+<div id="modal" onclick="maybeClose(event)">
+  <div class="m-book">
+    <div class="m-spine">
+      <div class="m-title" id="mTitle"></div>
+      <button class="m-close" onclick="closeModal()">✕</button>
     </div>
-    <div class="modal-content" id="modalContent"></div>
-    <button class="print-btn" onclick="window.print()">🖨️ Save / Print This Page</button>
+    <div class="m-body" id="mBody"></div>
+    <button class="m-print" onclick="window.print()">🖨️ Save / Print</button>
+  </div>
+</div>
+
+<!-- CONFIRM DELETE -->
+<div id="confirmBox">
+  <div class="confirm-card">
+    <span class="confirm-emoji">🗑️</span>
+    <div class="confirm-title">Delete this slam?</div>
+    <div class="confirm-sub">You're about to delete <strong id="confirmName"></strong>'s entry. This can't be undone!</div>
+    <div class="confirm-btns">
+      <button class="confirm-yes" id="confirmYesBtn">Yes, delete</button>
+      <button class="confirm-no" id="confirmNoBtn">Keep it 💌</button>
+    </div>
   </div>
 </div>
 
 <div id="toast"></div>
 
 <script>
-let currentUser = null;
+/* ══════════════════════════════════════════════
+   THEME + FONT DATA
+   ══════════════════════════════════════════════ */
+const THEMES = [
+  { id:'',          name:'Blossom 🌸',  dot:'linear-gradient(135deg,#FFD6E0,#E8D5F5)' },
+  { id:'midnight',  name:'Midnight 🌙', dot:'linear-gradient(135deg,#2D1B4E,#4A3580)' },
+  { id:'ocean',     name:'Ocean 🌊',    dot:'linear-gradient(135deg,#BAE6FD,#0284C7)' },
+  { id:'forest',    name:'Forest 🌿',   dot:'linear-gradient(135deg,#D1FAE5,#2D7A2D)' },
+  { id:'sunset',    name:'Sunset 🌅',   dot:'linear-gradient(135deg,#FED7AA,#E85D04)' },
+  { id:'candy',     name:'Candy 🍭',    dot:'linear-gradient(135deg,#FBCFE8,#E91E8C)' },
+  { id:'darkrose',  name:'Dark Rose 🥀',dot:'linear-gradient(135deg,#4C1027,#F43F6A)' },
+];
 
-/* ─── TAB SWITCH ──────────────────────────────────────────────── */
-function switchTab(tab){
-  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===(tab==='login'?0:1)));
-  document.getElementById('loginForm').classList.toggle('active',tab==='login');
-  document.getElementById('registerForm').classList.toggle('active',tab==='register');
+const FONTS = [
+  { id:'caveat',    name:'Caveat',         body:"'Josefin Sans',sans-serif",  hand:"'Caveat',cursive",          display:"'Abril Fatface',serif",    preview:'Hello friend~ ✨' },
+  { id:'dancing',   name:'Dancing Script', body:"'Quicksand',sans-serif",     hand:"'Dancing Script',cursive",  display:"'Dancing Script',cursive", preview:'Hello friend~ ✨' },
+  { id:'pacifico',  name:'Pacifico',       body:"'Nunito',sans-serif",        hand:"'Pacifico',cursive",        display:"'Pacifico',cursive",       preview:'Hello friend~ ✨' },
+  { id:'satisfy',   name:'Satisfy',        body:"'Raleway',sans-serif",       hand:"'Satisfy',cursive",         display:"'Satisfy',cursive",        preview:'Hello friend~ ✨' },
+  { id:'playfair',  name:'Playfair',       body:"'Josefin Sans',sans-serif",  hand:"'Playfair Display',serif",  display:"'Playfair Display',serif", preview:'Hello friend~ ✨' },
+];
+
+let activeTheme = '';
+let activeFont  = 'caveat';
+
+/* Load saved prefs */
+(function loadPrefs(){
+  const t = localStorage.getItem('sb_theme') || '';
+  const f = localStorage.getItem('sb_font')  || 'caveat';
+  applyTheme(t, false);
+  applyFont(f, false);
+})();
+
+function applyTheme(id, save=true){
+  activeTheme = id;
+  document.body.className = document.body.className.replace(/\btheme-\S+/g,'').trim();
+  if(id) document.body.classList.add('theme-'+id);
+  if(save) localStorage.setItem('sb_theme', id);
+  // update active state in panel
+  document.querySelectorAll('.t-swatch').forEach(s=>s.classList.toggle('active', s.dataset.theme===id));
 }
 
-/* ─── PAGE SWITCH ─────────────────────────────────────────────── */
+function applyFont(id, save=true){
+  activeFont = id;
+  const f = FONTS.find(x=>x.id===id) || FONTS[0];
+  const root = document.documentElement;
+  root.style.setProperty('--font-body', f.body);
+  root.style.setProperty('--font-hand', f.hand);
+  root.style.setProperty('--font-display', f.display);
+  if(save) localStorage.setItem('sb_font', id);
+  document.querySelectorAll('.f-card').forEach(c=>c.classList.toggle('active', c.dataset.font===id));
+}
+
+/* Build theme grid */
+function buildThemePanel(){
+  const grid = document.getElementById('themeGrid');
+  grid.innerHTML = '';
+  THEMES.forEach(t=>{
+    const s = document.createElement('div');
+    s.className = 't-swatch' + (t.id===activeTheme?' active':'');
+    s.dataset.theme = t.id;
+    s.innerHTML = `<div class="t-dot" style="background:${t.dot}"></div>${t.name}`;
+    s.style.background = 'var(--bg)';
+    s.style.color = 'var(--ink)';
+    s.style.fontSize = '.68rem';
+    s.addEventListener('click',()=>applyTheme(t.id));
+    grid.appendChild(s);
+  });
+
+  const fl = document.getElementById('fontList');
+  fl.innerHTML = '';
+  FONTS.forEach(f=>{
+    const c = document.createElement('div');
+    c.className = 'f-card' + (f.id===activeFont?' active':'');
+    c.dataset.font = f.id;
+    c.innerHTML = `<div class="f-card-name">${f.name}</div><div class="f-card-preview" style="font-family:${f.hand}">${f.preview}</div>`;
+    c.addEventListener('click',()=>applyFont(f.id));
+    fl.appendChild(c);
+  });
+}
+
+function openThemePanel(){
+  buildThemePanel();
+  document.getElementById('themePanel').classList.add('open');
+  document.getElementById('themeOverlay').classList.add('open');
+}
+function closeThemePanel(){
+  document.getElementById('themePanel').classList.remove('open');
+  document.getElementById('themeOverlay').classList.remove('open');
+}
+
+/* ══════════════════════════════════════════════
+   AUTH
+   ══════════════════════════════════════════════ */
+let currentUser = null;
+
+function switchTab(t){
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',i===(t==='login'?0:1)));
+  document.getElementById('loginForm').classList.toggle('active',t==='login');
+  document.getElementById('registerForm').classList.toggle('active',t==='register');
+}
+
 function showPage(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(id).classList.add('active');
 }
 
-/* ─── TOAST ───────────────────────────────────────────────────── */
-function toast(msg,duration=2500){
+function toast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),duration);
+  setTimeout(()=>t.classList.remove('show'),2600);
 }
 
-/* ─── AUTH ────────────────────────────────────────────────────── */
-async function handleLogin(e){
-  e.preventDefault();
-  const err=document.getElementById('loginErr');
-  err.style.display='none';
-  const username=document.getElementById('l-user').value.trim();
-  const password=document.getElementById('l-pass').value;
-  if(!username||!password){err.textContent='Please fill in all fields';err.style.display='block';return;}
-  try{
-    const r=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'include',
-      body:JSON.stringify({username,password})});
-    const d=await r.json();
-    if(!r.ok){err.textContent=d.error;err.style.display='block';return;}
-    currentUser=d;
-    loadDashboard();
-  }catch{err.textContent='Server error. Is Flask running?';err.style.display='block';}
+function showErr(id,msg){
+  const el=document.getElementById(id);
+  el.textContent=msg;
+  setTimeout(()=>el.textContent='',3500);
 }
 
-async function handleRegister(e){
-  e.preventDefault();
-  const err=document.getElementById('regErr');
-  err.style.display='none';
-  const username=document.getElementById('r-user').value.trim();
-  const email=document.getElementById('r-email').value.trim();
-  const password=document.getElementById('r-pass').value;
+async function handleLogin(){
+  const btn=document.getElementById('lBtn');
+  const username=document.getElementById('lUser').value.trim();
+  const password=document.getElementById('lPass').value;
+  if(!username||!password){showErr('lErr','Please fill in all fields');return;}
+  btn.disabled=true;btn.textContent='Opening… 📖';
   try{
-    const r=await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'include',
-      body:JSON.stringify({username,email,password})});
-    const d=await r.json();
-    if(!r.ok){err.textContent=d.error;err.style.display='block';return;}
-    currentUser=d;
-    loadDashboard();
-  }catch{err.textContent='Server error. Is Flask running?';err.style.display='block';}
+    const res=await fetch('/api/login',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({username,password})});
+    const d=await res.json();
+    if(!res.ok){showErr('lErr',d.error||'Login failed');btn.disabled=false;btn.textContent='Open My Slambook 📖';return;}
+    currentUser=d; goDash(d);
+  }catch{showErr('lErr','Cannot reach server. Is Flask running?');}
+  btn.disabled=false;btn.textContent='Open My Slambook 📖';
+}
+
+async function handleRegister(){
+  const btn=document.getElementById('rBtn');
+  const username=document.getElementById('rUser').value.trim();
+  const email=document.getElementById('rEmail').value.trim();
+  const password=document.getElementById('rPass').value;
+  if(!username||!email||!password){showErr('rErr','Please fill in all fields');return;}
+  if(password.length<6){showErr('rErr','Password must be 6+ characters');return;}
+  btn.disabled=true;btn.textContent='Creating… 🌸';
+  try{
+    const res=await fetch('/api/register',{method:'POST',headers:{'Content-Type':'application/json'},credentials:'include',body:JSON.stringify({username,email,password})});
+    const d=await res.json();
+    if(!res.ok){showErr('rErr',d.error||'Registration failed');btn.disabled=false;btn.textContent='Create My Slambook 🌸';return;}
+    currentUser=d; goDash(d);
+  }catch{showErr('rErr','Cannot reach server. Is Flask running?');}
+  btn.disabled=false;btn.textContent='Create My Slambook 🌸';
 }
 
 async function handleLogout(){
-  await fetch('/api/logout',{method:'POST',credentials:'include'});
+  try{await fetch('/api/logout',{method:'POST',credentials:'include'});}catch{}
   currentUser=null;
   showPage('authPage');
 }
 
-/* ─── DASHBOARD ───────────────────────────────────────────────── */
-function loadDashboard(){
-  document.getElementById('displayName').textContent=currentUser.username;
-  document.getElementById('userInitial').textContent=currentUser.username[0].toUpperCase();
-  const link=`${location.origin}/fill.html?s=${currentUser.slambook_token}`;
+/* ══════════════════════════════════════════════
+   DASHBOARD
+   ══════════════════════════════════════════════ */
+function goDash({username,slambook_token}){
+  document.getElementById('av').textContent=username[0].toUpperCase();
+  document.getElementById('unameDisp').textContent=username;
+  const link=location.protocol+'//'+location.host+'/fill.html?s='+slambook_token;
   document.getElementById('shareLink').textContent=link;
   showPage('dashPage');
   loadResponses();
 }
 
 function copyLink(){
-  const link=document.getElementById('shareLink').textContent;
-  navigator.clipboard.writeText(link).then(()=>toast('📋 Link copied! Share away~'));
+  const l=document.getElementById('shareLink').textContent;
+  navigator.clipboard.writeText(l).then(()=>toast('📋 Copied! Share away~')).catch(()=>toast('Link: '+l));
 }
 
 async function loadResponses(){
   try{
     const r=await fetch('/api/my-responses',{credentials:'include'});
-    if(!r.ok)return;
-    const data=await r.json();
-    renderResponses(data);
+    if(r.ok){const d=await r.json();renderCards(d);}
   }catch(e){console.error(e);}
 }
 
-const STICKERS=['🌸','💌','✨','🦋','🌈','⭐','💖','🎀','🍓','🌙'];
-function renderResponses(list){
-  const grid=document.getElementById('responsesGrid');
+const STIX=['🌸','💌','✨','🦋','🌈','⭐','💖','🎀','🍓','🌙'];
+const COLORS=['var(--c1)','var(--c2)','var(--c3)','var(--c4)','var(--c5)'];
+function renderCards(list){
+  const g=document.getElementById('rGrid');
   if(!list.length){
-    grid.innerHTML=`<div class="empty-state"><span class="emoji">📭</span><h4>No slams yet!</h4><p>Share your link and wait for the love to pour in~</p></div>`;
+    g.innerHTML=`<div class="empty-state"><span class="em">📭</span><h4>No slams yet!</h4><p>Share your link and wait for the love~</p></div>`;
     return;
   }
-  grid.innerHTML='';
-  list.slice().reverse().forEach((r,i)=>{
-    const card=document.createElement('div');
-    card.className='r-card';
-    card.style.animationDelay=(i*.07)+'s';
-    card.style.borderTopColor=['var(--blush)','var(--lavender)','var(--mint)','var(--periwinkle)','#FFD6A5'][i%5];
-    const sticker=STICKERS[i%STICKERS.length];
-    card.innerHTML=`
-      <span class="sticker">${sticker}</span>
-      <div class="r-name">${esc(r.full_name)}</div>
-      <div class="r-nick">${r.nickname?'"'+esc(r.nickname)+'"':''}</div>
-      <div class="r-preview">${esc(r.message||r.vibe||'')}</div>
-      <div><span class="r-badge">${esc(r.zodiac||'✨')}</span></div>
-      <div class="r-time">${esc(r.timestamp)}</div>
-    `;
-    card.addEventListener('click',()=>openModal(r,sticker));
-    grid.appendChild(card);
+  g.innerHTML='';
+  [...list].reverse().forEach((r,i)=>{
+    const stk=STIX[i%STIX.length];
+    const d=document.createElement('div');
+    d.className='r-card';
+    d.style.borderTopColor=COLORS[i%COLORS.length];
+    d.style.animationDelay=(i*.06)+'s';
+    d.innerHTML=`
+      <span class="stk">${stk}</span>
+      <div class="rn">${esc(r.full_name||'Anonymous')}</div>
+      <div class="rk">${r.nickname?'"'+esc(r.nickname)+'"':''}</div>
+      <div class="rp">${esc((r.message||r.fav_quote||'').substring(0,85))}${(r.message||r.fav_quote||'').length>85?'…':''}</div>
+      <div><span class="rb">${esc(r.zodiac||'✨')}</span></div>
+      <div class="rt">${esc(r.timestamp||'just now')}</div>
+      <button class="del-btn" title="Delete">🗑️</button>`;
+    d.addEventListener('click',e=>{if(!e.target.closest('.del-btn'))openModal(r,stk);});
+    d.querySelector('.del-btn').addEventListener('click',e=>{e.stopPropagation();confirmDelete(r.entry_id,r.full_name,d);});
+    g.appendChild(d);
   });
 }
 
-/* ─── MODAL ───────────────────────────────────────────────────── */
-function openModal(r,sticker='🌸'){
-  document.getElementById('modalName').textContent=(sticker+' '+esc(r.full_name));
-  document.getElementById('modalContent').innerHTML=buildModalHTML(r);
+/* ══════════════════════════════════════════════
+   CONFIRM + DELETE
+   ══════════════════════════════════════════════ */
+function confirmDelete(eid,name,el){
+  document.getElementById('confirmName').textContent=name||'this slam';
+  document.getElementById('confirmBox').classList.add('open');
+  document.getElementById('confirmYesBtn').onclick=async()=>{
+    document.getElementById('confirmBox').classList.remove('open');
+    await doDelete(eid,el);
+  };
+  document.getElementById('confirmNoBtn').onclick=()=>document.getElementById('confirmBox').classList.remove('open');
+}
+
+async function doDelete(eid,el){
+  el.classList.add('deleting');
+  try{
+    const r=await fetch('/api/delete/'+encodeURIComponent(eid),{method:'DELETE',credentials:'include'});
+    if(!r.ok){el.classList.remove('deleting');toast('❌ Could not delete.');return;}
+  }catch{}
+  setTimeout(()=>{
+    el.remove();
+    if(!document.getElementById('rGrid').querySelector('.r-card'))
+      document.getElementById('rGrid').innerHTML=`<div class="empty-state"><span class="em">📭</span><h4>No slams yet!</h4><p>Share your link and wait for the love~</p></div>`;
+    toast('🗑️ Slam deleted!');
+  },340);
+}
+
+/* ══════════════════════════════════════════════
+   MODAL
+   ══════════════════════════════════════════════ */
+function openModal(r,stk='🌸'){
+  document.getElementById('mTitle').textContent=stk+' '+(r.full_name||'Anonymous');
+  document.getElementById('mBody').innerHTML=buildModal(r);
   document.getElementById('modal').classList.add('open');
 }
-function closeModal(e){
-  if(!e||e.target===document.getElementById('modal'))
-    document.getElementById('modal').classList.remove('open');
-}
+function closeModal(){document.getElementById('modal').classList.remove('open');}
+function maybeClose(e){if(e.target===document.getElementById('modal'))closeModal();}
 
-function qrow(label,val){
-  const v=val&&val.trim()?`<div class="q-value">${esc(val)}</div>`:`<div class="q-value empty">not answered</div>`;
-  return `<div class="q-row"><span class="q-label">${label}</span>${v}</div>`;
+function qr(label,val){
+  const v=val&&String(val).trim()?`<div class="qv">${esc(val)}</div>`:`<div class="qv empty">not answered</div>`;
+  return `<div class="qrow"><div class="ql">${label}</div>${v}</div>`;
 }
-function rapid(label,val){
-  return `<div class="rapid-item"><div class="q-label">${label}</div><div class="q-value" style="font-size:1rem">${val?esc(val):'—'}</div></div>`;
+function rf(label,val){
+  return `<div class="rfi"><div class="ql">${label}</div><div class="qv" style="font-size:1rem">${val?esc(val):'—'}</div></div>`;
 }
-function buildModalHTML(r){
-  return `
-  <div class="q-section">
-    <div class="q-section-title">💌 Basic Details</div>
-    ${qrow('Full Name',r.full_name)}${qrow('Nickname',r.nickname)}${qrow('Date of Birth',r.dob)}
-    ${qrow('Zodiac Sign',r.zodiac)}${qrow('Contact',r.contact)}
-  </div>
-  <div class="q-section">
-    <div class="q-section-title">⭐ Favorites</div>
-    ${qrow('Favorite Color',r.fav_color)}${qrow('Favorite Food',r.fav_food)}
-    ${qrow('Favorite Movie / Series',r.fav_movie)}${qrow('Favorite Singer / Band',r.fav_singer)}
-    ${qrow('Favorite Actor / Actress',r.fav_actor)}${qrow('Favorite Place',r.fav_place)}
-    ${qrow('Favorite Subject',r.fav_subject)}${qrow('Favorite Hobby',r.fav_hobby)}
-    ${qrow('Favorite Season',r.fav_season)}${qrow('Favorite Quote',r.fav_quote)}
-  </div>
-  <div class="q-section">
-    <div class="q-section-title">🎯 Dreams & Goals</div>
-    ${qrow('Biggest Goal in Life',r.goal)}${qrow('Dream Job',r.dream_job)}
-    ${qrow('In 10 Years…',r.in_10_years)}${qrow('One Thing to Achieve',r.want_to_achieve)}
-  </div>
-  <div class="q-section">
-    <div class="q-section-title">💭 About Me</div>
-    ${qrow('3 Words That Describe Me',r.three_words)}${qrow('Biggest Fear',r.biggest_fear)}
-    ${qrow('Biggest Strength',r.strength)}${qrow('Hidden Talent',r.hidden_talent)}
-    ${qrow('Most Embarrassing Moment',r.embarrassing_moment)}${qrow('Biggest Crush 😏',r.crush)}
-  </div>
-  <div class="q-section">
-    <div class="q-section-title">👀 About Us</div>
-    ${qrow('First Impression of You',r.first_impression)}${qrow('What Changed After Knowing You',r.what_changed)}
-    ${qrow('Favorite Memory With You',r.fav_memory)}${qrow('What I Like Most About You',r.like_most)}
-    ${qrow('What Annoys Me About You 😅',r.annoys_me)}${qrow('Secret Between Just Us',r.secret_between_us)}
-    ${qrow('If We Were a Movie…',r.movie_title)}
-  </div>
-  <div class="q-section">
-    <div class="q-section-title">🎵 Just For You</div>
-    ${qrow('Song I\'d Dedicate to You',r.dedicate_song)}${qrow('A Line From That Song',r.song_line)}
-    ${qrow('Our Friendship Theme Song',r.theme_song)}
-  </div>
-  <div class="q-section">
-    <div class="q-section-title">🔥 Rapid Fire</div>
-    <div class="rapid-grid">
-      ${rapid('☕ or 🍵',r.coffee_tea)}${rapid('🌙 or ☀️',r.night_day)}
-      ${rapid('💕 or 💰',r.love_money)}${rapid('📞 or 💬',r.call_text)}
-      ${rapid('⛰️ or 🏖️',r.mountains_beach)}${rapid('🙈 or 🦋',r.intro_extro)}
-    </div>
-  </div>
-  <div class="q-section">
-    <div class="q-section-title">💖 One Last Thing</div>
-    ${qrow('A Message For You',r.message)}
-    <div class="q-row">
-      <span class="q-label">Will You Remember Me?</span>
-      <div class="q-value" style="color:var(--coral);font-size:1.4rem">${r.remember_me||'YES 💖'}</div>
-    </div>
-  </div>`;
-}
+function buildModal(r){return `
+<div class="qs"><div class="qs-title">💌 Basic Details</div>
+  ${qr('Full Name',r.full_name)}${qr('Nickname',r.nickname)}${qr('Date of Birth',r.dob)}${qr('Zodiac',r.zodiac)}${qr('Contact',r.contact)}</div>
+<div class="qs"><div class="qs-title">⭐ Favorites</div>
+  ${qr('Color',r.fav_color)}${qr('Food',r.fav_food)}${qr('Movie / Series',r.fav_movie)}
+  ${qr('Singer / Band',r.fav_singer)}${qr('Actor / Actress',r.fav_actor)}${qr('Place',r.fav_place)}
+  ${qr('Subject',r.fav_subject)}${qr('Hobby',r.fav_hobby)}${qr('Season',r.fav_season)}${qr('Quote',r.fav_quote)}</div>
+<div class="qs"><div class="qs-title">🎯 Dreams & Goals</div>
+  ${qr('Biggest Goal',r.goal)}${qr('Dream Job',r.dream_job)}${qr('In 10 Years…',r.in_10_years)}${qr('One Thing to Achieve',r.want_to_achieve)}</div>
+<div class="qs"><div class="qs-title">💭 About Me</div>
+  ${qr('3 Words',r.three_words)}${qr('Biggest Fear',r.biggest_fear)}${qr('Strength',r.strength)}
+  ${qr('Hidden Talent',r.hidden_talent)}${qr('Embarrassing Moment',r.embarrassing_moment)}${qr('Biggest Crush 😏',r.crush)}</div>
+<div class="qs"><div class="qs-title">👀 About Us</div>
+  ${qr('First Impression',r.first_impression)}${qr('What Changed',r.what_changed)}${qr('Fav Memory',r.fav_memory)}
+  ${qr('Like Most',r.like_most)}${qr('Annoys Me 😅',r.annoys_me)}${qr('Secret',r.secret_between_us)}${qr('If We Were a Movie…',r.movie_title)}</div>
+<div class="qs"><div class="qs-title">🎵 Just For You</div>
+  ${qr('Song Dedicated to You',r.dedicate_song)}${qr('A Line From That Song',r.song_line)}${qr('Our Theme Song',r.theme_song)}</div>
+<div class="qs"><div class="qs-title">🔥 Rapid Fire</div>
+  <div class="rf-grid">${rf('☕ or 🍵',r.coffee_tea)}${rf('🌙 or ☀️',r.night_day)}${rf('💕 or 💰',r.love_money)}${rf('📞 or 💬',r.call_text)}${rf('⛰️ or 🏖️',r.mountains_beach)}${rf('🙈 or 🦋',r.intro_extro)}</div></div>
+<div class="qs"><div class="qs-title">💖 One Last Thing</div>
+  ${qr('A Message For You',r.message)}
+  <div class="qrow"><div class="ql">Will You Remember Me?</div><div class="qv" style="color:var(--accent);font-size:1.3rem">${esc(r.remember_me||'Yes! Always 💖')}</div></div></div>`;}
 
-function esc(s=''){
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
+function esc(s=''){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 
-/* ─── INIT ────────────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════
+   INIT
+   ══════════════════════════════════════════════ */
 (async()=>{
   try{
     const r=await fetch('/api/me',{credentials:'include'});
     const d=await r.json();
-    if(d.logged_in){currentUser=d;loadDashboard();}
+    if(d.logged_in){currentUser=d;goDash(d);}
   }catch{}
 })();
 </script>

@@ -572,7 +572,8 @@ document.getElementById('slamForm').addEventListener('submit',async e=>{
     const d=await r.json();
     if(!r.ok){
       btn.disabled=false;btn.textContent='💌 Slam It & Send!';
-      alert(d.error||'Something went wrong!');return;
+      // Show friendly error (not a duplicate block anymore)
+      alert(d.error||'Something went wrong. Please try again!');return;
     }
     // Success!
     document.getElementById('slamForm').style.display='none';

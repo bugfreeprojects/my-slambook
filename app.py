@@ -232,16 +232,11 @@ def submit_response(token):
         return jsonify({"error": "Full name is required"}), 400
 
     entry['owner_id']  = owner['id']
-    entry['entry_id']  = str(uuid.uuid4())[:8]
+    entry['entry_id']  = str(uuid.uuid4())   # Full UUID — allows multiple slams, enables precise delete
     entry['timestamp'] = datetime.utcnow().strftime("%d %b %Y, %H:%M UTC")
-    entry['ip_hash']   = hashlib.sha256(request.remote_addr.encode()).hexdigest()[:12]  # Store hash, not raw IP
+    # No duplicate check — multiple friends can fill from same device
 
     responses = load_list(RESPONSES_FILE)
-    # Prevent duplicate submissions from same IP to same slambook
-    for r in responses:
-        if r.get('owner_id') == owner['id'] and r.get('ip_hash') == entry['ip_hash']:
-            return jsonify({"error": "You already filled this slambook!"}), 409
-
     responses.append(entry)
     save_list(RESPONSES_FILE, responses)
     return jsonify({"success": True, "message": f"Slam delivered to {owner['username']}! 💌"}), 201
@@ -254,9 +249,22 @@ def my_responses():
     u = current_user()
     responses = load_list(RESPONSES_FILE)
     mine = [r for r in responses if r.get('owner_id') == u['id']]
-    # Remove IP hash before sending to client
-    for r in mine: r.pop('ip_hash', None)
     return jsonify(mine)
+
+# ─── DELETE A SLAM ──────────────────────────────────────────────────
+@app.route("/api/delete/<entry_id>", methods=["DELETE"])
+@login_required
+@rate_limit(30, 60)
+def delete_entry(entry_id):
+    u = current_user()
+    entry_id = sanitize(entry_id, 40)
+    responses = load_list(RESPONSES_FILE)
+    # Only allow deleting your OWN slambook entries
+    new_list = [r for r in responses if not (r.get('entry_id') == entry_id and r.get('owner_id') == u['id'])]
+    if len(new_list) == len(responses):
+        return jsonify({"error": "Entry not found or not yours"}), 404
+    save_list(RESPONSES_FILE, new_list)
+    return jsonify({"success": True})
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))  # Render sets PORT automatically
