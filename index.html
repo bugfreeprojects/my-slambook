@@ -155,6 +155,31 @@ body{background:var(--bg);font-family:var(--font-body);min-height:100vh;overflow
 .confirm-yes:hover{transform:scale(1.05);}
 .confirm-no{padding:9px 22px;border-radius:20px;border:1.5px solid var(--c1);background:none;font-family:var(--font-hand);font-size:1.05rem;color:var(--soft-ink);cursor:pointer;transition:all .15s;}
 .confirm-no:hover{background:var(--c1);}
+.theme-toggle-btn{width:34px;height:34px;border-radius:50%;border:1.5px solid var(--c1);background:none;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:transform .2s,background .2s;}
+.theme-toggle-btn:hover{transform:scale(1.12);background:var(--c1);}
+/* Theme panel overlay */
+#themePanel{position:fixed;top:0;right:-340px;width:320px;height:100vh;background:var(--paper);z-index:500;box-shadow:-6px 0 30px var(--shadow);transition:right .35s cubic-bezier(.34,1.2,.64,1),background .4s;overflow-y:auto;padding:24px 20px;}
+#themePanel.open{right:0;}
+#themePanel::-webkit-scrollbar{width:3px;}
+#themePanel::-webkit-scrollbar-thumb{background:var(--c2);}
+#themeOverlay{position:fixed;inset:0;z-index:499;background:rgba(0,0,0,.25);display:none;backdrop-filter:blur(2px);}
+#themeOverlay.open{display:block;}
+.tp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;}
+.tp-title{font-family:var(--font-hand);font-size:1.6rem;color:var(--ink);}
+.tp-close{width:30px;height:30px;border-radius:50%;background:var(--c1);border:none;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:transform .2s;}
+.tp-close:hover{transform:scale(1.1);}
+.tp-lbl{font-size:.68rem;letter-spacing:2px;text-transform:uppercase;color:var(--soft-ink);margin-bottom:10px;display:block;}
+.tp-theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px;}
+.tp-swatch{border-radius:10px;padding:10px 6px;text-align:center;cursor:pointer;border:2px solid transparent;transition:transform .15s,border-color .15s;font-size:.68rem;color:var(--ink);background:var(--bg);}
+.tp-swatch:hover{transform:scale(1.05);}
+.tp-swatch.active{border-color:var(--accent);transform:scale(1.06);}
+.tp-dot{width:28px;height:28px;border-radius:50%;margin:0 auto 5px;box-shadow:0 2px 6px rgba(0,0,0,.15);}
+.tp-font-list{display:flex;flex-direction:column;gap:8px;}
+.tp-font-card{padding:12px 14px;border-radius:10px;background:var(--bg);border:2px solid transparent;cursor:pointer;transition:all .15s;}
+.tp-font-card:hover{border-color:var(--c2);}
+.tp-font-card.active{border-color:var(--accent);background:var(--c1);}
+.tp-font-name{font-size:.68rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--soft-ink);margin-bottom:4px;}
+.tp-font-prev{font-size:1.25rem;color:var(--ink);}
 @media(max-width:600px){.auth-wrap{flex-direction:column;}.theme-sidebar{max-width:440px;}}
 </style>
 </head>
@@ -216,6 +241,7 @@ body{background:var(--bg);font-family:var(--font-body);min-height:100vh;overflow
   <div class="dash-hdr">
     <div class="dash-logo">My <em>Slambook</em> 📓</div>
     <div class="hdr-right">
+      <button class="theme-toggle-btn" onclick="openThemePanel()" title="Customize theme">🎨</button>
       <div class="avatar" id="av">?</div>
       <span class="uname-lbl" id="unameDisp"></span>
       <button class="hdr-btn" onclick="handleLogout()">Sign Out</button>
@@ -257,6 +283,18 @@ body{background:var(--bg);font-family:var(--font-body);min-height:100vh;overflow
       <button class="confirm-no" id="confirmNoBtn">Keep it 💌</button>
     </div>
   </div>
+</div>
+<!-- THEME PANEL -->
+<div id="themeOverlay" onclick="closeThemePanel()"></div>
+<div id="themePanel">
+  <div class="tp-header">
+    <div class="tp-title">🎨 Customize</div>
+    <button class="tp-close" onclick="closeThemePanel()">✕</button>
+  </div>
+  <span class="tp-lbl">🌈 Theme</span>
+  <div class="tp-theme-grid" id="tpThemeGrid"></div>
+  <span class="tp-lbl">✍️ Font</span>
+  <div class="tp-font-list" id="tpFontList"></div>
 </div>
 <div id="toast"></div>
 
@@ -534,6 +572,30 @@ function buildModal(r){return `
 <div class="qs"><div class="qs-title">🎵 Just For You</div>${qr('Song Dedicated to You',r.dedicate_song)}${qr('A Line From That Song',r.song_line)}${qr('Our Theme Song',r.theme_song)}</div>
 <div class="qs"><div class="qs-title">🔥 Rapid Fire</div><div class="rf-grid">${rf('☕ or 🍵',r.coffee_tea)}${rf('🌙 or ☀️',r.night_day)}${rf('💕 or 💰',r.love_money)}${rf('📞 or 💬',r.call_text)}${rf('⛰️ or 🏖️',r.mountains_beach)}${rf('🙈 or 🦋',r.intro_extro)}</div></div>
 <div class="qs"><div class="qs-title">💖 One Last Thing</div>${qr('A Message For You',r.message)}<div class="qrow"><div class="ql">Will You Remember Me?</div><div class="qv" style="color:var(--accent);font-size:1.3rem">${esc(r.remember_me||'Yes! Always 💖')}</div></div></div>`;}
+
+/* ══ DASH THEME PANEL ════════════════════════════════════════════ */
+function buildThemePanel(){
+  const tg=document.getElementById('tpThemeGrid');tg.innerHTML='';
+  THEMES.forEach(t=>{
+    const s=document.createElement('div');
+    s.className='tp-swatch'+(t.id===activeTheme?' active':'');
+    s.dataset.theme=t.id;
+    s.innerHTML=`<div class="tp-dot" style="background:${t.dot}"></div>${t.emoji} ${t.name}`;
+    s.addEventListener('click',()=>{applyTheme(t.id);document.querySelectorAll('.tp-swatch').forEach(x=>x.classList.toggle('active',x.dataset.theme===t.id));});
+    tg.appendChild(s);
+  });
+  const fl=document.getElementById('tpFontList');fl.innerHTML='';
+  FONTS.forEach(f=>{
+    const c=document.createElement('div');
+    c.className='tp-font-card'+(f.id===activeFont?' active':'');
+    c.dataset.font=f.id;
+    c.innerHTML=`<div class="tp-font-name">${f.name}</div><div class="tp-font-prev" style="font-family:${f.hand}">${f.prev}</div>`;
+    c.addEventListener('click',()=>{applyFont(f.id);document.querySelectorAll('.tp-font-card').forEach(x=>x.classList.toggle('active',x.dataset.font===f.id));});
+    fl.appendChild(c);
+  });
+}
+function openThemePanel(){buildThemePanel();document.getElementById('themePanel').classList.add('open');document.getElementById('themeOverlay').classList.add('open');}
+function closeThemePanel(){document.getElementById('themePanel').classList.remove('open');document.getElementById('themeOverlay').classList.remove('open');}
 
 /* ══ INIT ════════════════════════════════════════════════════════ */
 (async()=>{
